@@ -1,51 +1,50 @@
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { Monitor, Smartphone, Globe, Zap, Code, Gamepad2, Layers, Database } from 'lucide-react';
 
-interface Skill {
-  name: string;
-  level: number;
-  icon: string;
-}
-
-const skills: Skill[] = [
-  { name: 'Unity 3D', level: 95, icon: '🎮' },
-  { name: 'C# Programming', level: 90, icon: '💻' },
-  { name: 'XR Development', level: 88, icon: '🥽' },
-  { name: 'JavaScript', level: 85, icon: '🌐' },
-  { name: 'React.js', level: 82, icon: '⚛️' },
-  { name: 'Blender', level: 78, icon: '🎨' },
-  { name: 'AR Foundation', level: 85, icon: '📱' },
-  { name: 'OpenXR', level: 80, icon: '🔮' },
+const skills = [
+  {
+    name: 'Unity 3D',
+    icon: Monitor,
+    description: 'Advanced XR development'
+  },
+  {
+    name: 'C# Programming',
+    icon: Code,
+    description: 'Object-oriented expertise'
+  },
+  {
+    name: 'AR/VR Development',
+    icon: Smartphone,
+    description: 'Immersive experiences'
+  },
+  {
+    name: 'Web Development',
+    icon: Globe,
+    description: 'Modern web technologies'
+  },
+  {
+    name: 'Game Development',
+    icon: Gamepad2,
+    description: 'Interactive gaming'
+  },
+  {
+    name: 'UI/UX Design',
+    icon: Layers,
+    description: 'User-centered design'
+  },
+  {
+    name: 'Performance Optimization',
+    icon: Zap,
+    description: 'Efficient solutions'
+  },
+  {
+    name: 'Database Management',
+    icon: Database,
+    description: 'Data architecture'
+  },
 ];
 
 export const Skills = () => {
-  const [counters, setCounters] = useState<number[]>(new Array(skills.length).fill(0));
-
-  useEffect(() => {
-    const timers = skills.map((skill, index) => {
-      return setTimeout(() => {
-        const duration = 2000;
-        const steps = 60;
-        const increment = skill.level / steps;
-        let current = 0;
-
-        const counter = setInterval(() => {
-          current += increment;
-          if (current >= skill.level) {
-            current = skill.level;
-            clearInterval(counter);
-          }
-          setCounters(prev => {
-            const newCounters = [...prev];
-            newCounters[index] = Math.round(current);
-            return newCounters;
-          });
-        }, duration / steps);
-      }, index * 200);
-    });
-
-    return () => timers.forEach(timer => clearTimeout(timer));
-  }, []);
 
   return (
     <section id="skills" className="py-20 relative">
@@ -65,7 +64,7 @@ export const Skills = () => {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {skills.map((skill, index) => (
             <motion.div
               key={skill.name}
@@ -74,40 +73,28 @@ export const Skills = () => {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
               whileHover={{ scale: 1.05, y: -10 }}
-              className="bg-card rounded-xl p-6 border border-neon-green/20 hover:border-neon-green/50 transition-all duration-300 group"
+              className="group relative"
             >
-              <div className="text-center">
-                <motion.div
-                  whileHover={{ scale: 1.2, rotate: 360 }}
-                  transition={{ duration: 0.5 }}
-                  className="text-4xl mb-4 group-hover:drop-shadow-[0_0_15px_rgba(57,255,20,0.7)]"
-                >
-                  {skill.icon}
-                </motion.div>
+              <div className="bg-card rounded-xl p-6 border border-neon-green/20 hover:border-neon-green/50 transition-all duration-500 h-full backdrop-blur-sm text-center">
+                {/* Neon glow effect on hover */}
+                <div className="absolute inset-0 rounded-xl bg-neon-green/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
                 
-                <h3 className="text-lg font-semibold mb-4 text-foreground group-hover:text-neon-green transition-colors duration-300">
-                  {skill.name}
-                </h3>
-                
-                <div className="relative">
-                  <div className="w-full bg-muted rounded-full h-3 mb-2 overflow-hidden">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${skill.level}%` }}
-                      transition={{ duration: 1.5, delay: index * 0.1 }}
-                      viewport={{ once: true }}
-                      className="h-full bg-gradient-to-r from-neon-green to-neon-blue rounded-full relative"
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-r from-neon-green to-neon-blue opacity-70 blur-sm"></div>
-                    </motion.div>
-                  </div>
-                  
+                <div className="relative z-10">
+                  {/* Skill Icon */}
                   <motion.div
-                    className="text-neon-green font-bold text-xl"
-                    key={counters[index]}
+                    whileHover={{ scale: 1.2, rotate: 5 }}
+                    className="inline-flex items-center justify-center w-16 h-16 mb-4 rounded-full bg-neon-green/10 border border-neon-green/30 group-hover:bg-neon-green/20 transition-all duration-300"
                   >
-                    {counters[index]}%
+                    <skill.icon className="w-8 h-8 text-neon-green" />
                   </motion.div>
+
+                  <h3 className="text-lg font-bold mb-2 text-foreground group-hover:text-neon-green transition-colors duration-300">
+                    {skill.name}
+                  </h3>
+
+                  <p className="text-muted-foreground text-sm">
+                    {skill.description}
+                  </p>
                 </div>
               </div>
             </motion.div>

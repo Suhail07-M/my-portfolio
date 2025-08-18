@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { ExternalLink, Github, Smartphone } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface Project {
   id: string;
@@ -62,6 +63,12 @@ const projects: Project[] = [
 ];
 
 export const Projects = () => {
+  const navigate = useNavigate();
+
+  const handleProjectClick = (projectId: string) => {
+    navigate(`/projects/${projectId}`);
+  };
+
   return (
     <section id="projects" className="py-20 relative">
       <div className="container mx-auto px-6">
@@ -89,7 +96,8 @@ export const Projects = () => {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
               whileHover={{ scale: 1.02, y: -10 }}
-              className="group relative"
+              className="group relative cursor-pointer"
+              onClick={() => handleProjectClick(project.id)}
             >
               <div className="bg-card rounded-xl p-8 border border-neon-green/20 hover:border-neon-green/50 transition-all duration-500 h-full backdrop-blur-sm">
                 {/* Neon glow effect on hover */}
