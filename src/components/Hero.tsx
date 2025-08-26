@@ -4,7 +4,7 @@ import profileImage from '@/assets/profile.jpg';
 
 export const Hero = () => {
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
+    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black pt-20 md:pt-0">
       <ParticleBackground />
 
       <div className="relative z-10 container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
@@ -21,8 +21,7 @@ export const Hero = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-6xl md:text-8xl font-bold mb-6"
           >
-            <span className="text-foreground">Suhail</span>
-            <br />
+            <span className="text-foreground">Suhail </span>
             <span className="text-neon-green">M</span>
           </motion.h1>
           
@@ -30,9 +29,20 @@ export const Hero = () => {
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-xl md:text-2xl text-muted-foreground mb-8"
+            className="text-[#39FF14] font-semibold tracking-[0.5px] leading-[1.33] text-[clamp(14px,2.2vw,18px)] sm:text-[clamp(16px,1.6vw,22px)] mb-4 lg:mb-6"
+            style={{ textShadow: '0 0 12px rgba(57,255,20,0.25)' }}
           >
-            XR Developer <span className="text-neon-green">|</span> Unity Specialist
+            XR Developer <span className="mx-2">|</span> Unity Specialist
+          </motion.p>
+
+          {/* Summary: justified across breakpoints, lighter grey for contrast */}
+          <motion.p
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.7 }}
+            className="text-base md:text-lg text-[#B9C0CB]/[0.85] mb-8 max-w-2xl leading-relaxed text-justify"
+          >
+             3+ years of experience building and leading development of immersive AR/VR apps and interactive games for cross‑platform deployment. Skilled in Unity and XR frameworks, with a strong focus on performance and user experience.
           </motion.p>
 
           <motion.div
@@ -44,16 +54,16 @@ export const Hero = () => {
             <motion.button
               whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(57, 255, 20, 0.6)" }}
               whileTap={{ scale: 0.95 }}
-              className="px-8 py-4 bg-neon-green text-background font-semibold rounded-lg hover:bg-neon-green/90 transition-all duration-300"
+              className="px-8 py-4 bg-neon-green text-background font-semibold rounded-lg hover:bg-neon-green/90 transition-all duration-300 hover:shadow-[0_0_30px_rgba(57,255,20,0.6)]"
               onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
             >
               View Projects
             </motion.button>
             
             <motion.button
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(57, 255, 20, 0.4)" }}
               whileTap={{ scale: 0.95 }}
-              className="px-8 py-4 border-2 border-neon-green text-neon-green font-semibold rounded-lg hover:bg-neon-green/10 transition-all duration-300 neon-glow"
+              className="px-8 py-4 border-2 border-neon-green text-neon-green font-semibold rounded-lg hover:bg-neon-green/10 transition-all duration-300 neon-glow hover:shadow-[0_0_30px_rgba(57,255,20,0.4)]"
               onClick={() => document.getElementById('resume')?.scrollIntoView({ behavior: 'smooth' })}
             >
               Download Resume
@@ -83,7 +93,7 @@ export const Hero = () => {
               whileHover={{ scale: 1.05 }}
               src={profileImage}
               alt="Suhail M - XR Developer"
-              className="w-80 h-80 rounded-full object-cover border-4 border-neon-green neon-glow relative z-10"
+              className="w-96 h-96 rounded-full object-cover border-4 border-neon-green neon-glow relative z-10"
             />
           </div>
         </motion.div>

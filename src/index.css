@@ -119,4 +119,25 @@ All colors MUST be HSL.
   .bg-gradient-glow {
     background: var(--gradient-glow);
   }
+
+  /* Subtle neon text glow for role subtitle */
+  .neon-text-soft {
+    color: hsl(var(--neon-green));
+    text-shadow: 0 0 12px hsl(var(--neon-green) / 0.25);
+  }
+}
+
+/* Custom class for justified text with centered last line */
+.text-justify-last-center {
+  text-align: justify;
+  text-align-last: center;
+  -webkit-text-align-last: center;
+  -moz-text-align-last: center;
+}
+
+/* Fallback for mobile devices that don't support text-align-last */
+@media (max-width: 768px) {
+  .text-justify-last-center {
+    text-align: center;
+  }
 }

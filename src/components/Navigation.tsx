@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 export const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
@@ -24,6 +25,32 @@ export const Navigation = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Close mobile menu when clicking outside or scrolling
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element;
+      if (isMobileMenuOpen && !target.closest('nav')) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    const handleScroll = () => {
+      if (isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    if (isMobileMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      window.addEventListener('scroll', handleScroll);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [isMobileMenuOpen]);
   const navLinks = [{
     name: 'Home',
     href: 'home'
@@ -46,6 +73,8 @@ export const Navigation = () => {
       element.scrollIntoView({
         behavior: 'smooth'
       });
+      // Close mobile menu after navigation
+      setIsMobileMenuOpen(false);
     }
   };
   return <motion.nav initial={{
@@ -63,8 +92,8 @@ export const Navigation = () => {
             <span className="text-neon-green px-0">PORTFOLIO</span>
           </motion.div>
 
-          {/* Navigation Links */}
-          <div className="hidden md:flex space-x-8">
+          {/* Navigation Links - Desktop */}
+          <div className="hidden lg:flex space-x-8">
             {navLinks.map(link => <motion.button key={link.name} onClick={() => scrollToSection(link.href)} whileHover={{
             scale: 1.1
           }} whileTap={{
@@ -75,12 +104,43 @@ export const Navigation = () => {
               </motion.button>)}
           </div>
 
+          {/* Mobile Navigation Links - Right Side Dropdown */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: -10 }}
+            animate={{ 
+              opacity: isMobileMenuOpen ? 1 : 0, 
+              scale: isMobileMenuOpen ? 1 : 0.95,
+              y: isMobileMenuOpen ? 0 : -10 
+            }}
+            transition={{ duration: 0.2 }}
+            className={`lg:hidden absolute top-full right-0 mt-2 w-48 bg-background/95 backdrop-blur-md border border-neon-green/20 rounded-lg shadow-lg ${
+              isMobileMenuOpen ? 'block' : 'hidden'
+            }`}
+          >
+            <div className="py-2">
+              {navLinks.map(link => (
+                <motion.button
+                  key={link.name}
+                  onClick={() => scrollToSection(link.href)}
+                  whileHover={{ scale: 1.02, x: 4 }}
+                  whileTap={{ scale: 0.98 }}
+                  className={`w-full text-left px-4 py-3 transition-colors duration-200 font-medium ${
+                    activeSection === link.href ? 'text-neon-green bg-neon-green/10' : 'text-muted-foreground hover:text-neon-green hover:bg-neon-green/5'
+                  }`}
+                >
+                  {link.name}
+                </motion.button>
+              ))}
+            </div>
+          </motion.div>
+
           {/* Mobile Menu Button */}
-          <motion.button whileHover={{
-          scale: 1.1
-        }} whileTap={{
-          scale: 0.95
-        }} className="md:hidden text-neon-green">
+          <motion.button 
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="lg:hidden text-neon-green"
+          >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </svg>
