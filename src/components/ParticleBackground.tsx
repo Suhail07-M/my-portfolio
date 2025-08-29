@@ -22,7 +22,7 @@ export const ParticleBackground = () => {
         interactivity: {
           events: {
             onClick: {
-              enable: true,
+              enable: false,
               mode: "push",
             },
             onHover: {
@@ -33,7 +33,7 @@ export const ParticleBackground = () => {
           },
           modes: {
             push: {
-              quantity: 4,
+              quantity: 0,
             },
             repulse: {
               distance: 100,

@@ -4,7 +4,7 @@ import profileImage from '@/assets/profile.jpg';
 
 export const Hero = () => {
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black pt-20 md:pt-0">
+    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-transparent pt-20 md:pt-0">
       <ParticleBackground />
 
       <div className="relative z-10 container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">

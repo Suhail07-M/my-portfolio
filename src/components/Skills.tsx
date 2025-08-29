@@ -44,6 +44,11 @@ const xrDevSkills = [
     description: 'Advanced marker-based & markerless AR tracking'
   },
   {
+    name: 'Mobile VR',
+    icon: GiVrHeadset, // custom SVG rendered in JSX below
+    description: 'Optimized VR experiences for mobile and standalone headsets'
+  },
+  {
     name: 'Oculus SDK',
     icon: SiOculus,
     description: 'Native VR development for Meta Quest platforms'
@@ -194,36 +199,36 @@ export const Skills = () => {
                   
                   <div className="relative z-10 text-center">
                     {/* Skill Icon */}
-                                         <motion.div
-                       whileHover={{ scale: 1.2, rotate: 5 }}
-                       className="inline-flex items-center justify-center w-16 h-16 mb-6 rounded-full bg-neon-green/10 border border-neon-green/30 group-hover:bg-neon-green/20 transition-all duration-300"
-                     >
-                                               {skill.name === 'Blender & Maya' ? (
-                          <SiBlender className="w-9 h-9 text-neon-green" aria-label="Blender & Maya" style={{ filter: 'drop-shadow(0 0 8px rgba(57,255,20,0.25))' }} />
-                        ) : (
-                          <skill.icon 
-                            className="w-9 h-9 text-neon-green" 
-                            aria-label={skill.name === 'Script Machine' ? 'Script Machine (node graph icon)' : skill.name}
-                            style={{ filter: 'drop-shadow(0 0 8px rgba(57,255,20,0.25))' }}
-                          />
-                        )}
-                     </motion.div>
+                    <motion.div
+                      whileHover={{ scale: 1.2, rotate: 5 }}
+                      className="inline-flex items-center justify-center w-16 h-16 mb-6 rounded-full bg-neon-green/10 border border-neon-green/30 group-hover:bg-neon-green/20 transition-all duration-300"
+                    >
+                      {skill.name === 'Blender & Maya' ? (
+                        <SiBlender className="w-9 h-9 text-neon-green" aria-label="Blender & Maya" style={{ filter: 'drop-shadow(0 0 8px rgba(57,255,20,0.25))' }} />
+                      ) : (
+                        <skill.icon 
+                          className="w-9 h-9 text-neon-green" 
+                          aria-label={skill.name === 'Script Machine' ? 'Script Machine (node graph icon)' : skill.name}
+                          style={{ filter: 'drop-shadow(0 0 8px rgba(57,255,20,0.25))' }}
+                        />
+                      )}
+                    </motion.div>
 
-                     <h4 className="text-xl font-bold mb-4 text-white group-hover:text-neon-green transition-colors duration-300">
-                       {skill.name}
-                     </h4>
+                    <h4 className="text-xl font-bold mb-4 text-white group-hover:text-neon-green transition-colors duration-300">
+                      {skill.name}
+                    </h4>
 
-                     <p className="text-[#aaa] text-sm leading-relaxed px-3 text-justify-last-center">
-                       {skill.description}
-                     </p>
-                   </div>
-                 </div>
-               </motion.div>
-             ))}
-           </div>
-         </motion.div>
+                    <p className="text-[#aaa] text-sm leading-relaxed px-3 text-justify-last-center">
+                      {skill.description}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
 
-         {/* XR Development Section */}
+        {/* XR Development Section */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -258,34 +263,65 @@ export const Skills = () => {
                   
                   <div className="relative z-10 text-center">
                     {/* Skill Icon */}
-                                         <motion.div
-                       whileHover={{ scale: 1.2, rotate: 5 }}
-                       className="inline-flex items-center justify-center w-16 h-16 mb-6 rounded-full bg-neon-green/10 border border-neon-green/30 group-hover:bg-neon-green/20 transition-all duration-300"
-                     >
-                       {skill.name === 'Blender & Maya' ? (
-                         <SiBlender className="w-9 h-9 text-neon-green" aria-label="Blender & Maya" style={{ filter: 'drop-shadow(0 0 8px rgba(57,255,20,0.25))' }} />
-                       ) : (
-                         <skill.icon 
-                           className="w-9 h-9 text-neon-green" 
-                           aria-label={skill.name}
-                           style={{ filter: 'drop-shadow(0 0 8px rgba(57,255,20,0.25))' }}
-                         />
-                       )}
-                     </motion.div>
+                    <motion.div
+                      whileHover={{ scale: 1.2, rotate: 5 }}
+                      className="inline-flex items-center justify-center w-16 h-16 mb-6 rounded-full bg-neon-green/10 border border-neon-green/30 group-hover:bg-neon-green/20 transition-all duration-300"
+                    >
+                      {skill.name === 'Blender & Maya' ? (
+                        <SiBlender className="w-9 h-9 text-neon-green" aria-label="Blender & Maya" style={{ filter: 'drop-shadow(0 0 8px rgba(57,255,20,0.25))' }} />
+                      ) : skill.name === 'Mobile VR' ? (
+                        <svg
+                          viewBox="0 0 112 60"
+                          className="block mx-auto w-9 h-9"
+                          role="img"
+                          aria-label="Mobile VR"
+                        >
+                          <defs>
+                            <mask id="mvreyemask">
+                              <rect x="0" y="0" width="112" height="60" fill="#fff" />
+                              <circle cx="34" cy="30" r="8" fill="#000" />
+                              <circle cx="78" cy="30" r="8" fill="#000" />
+                            </mask>
+                          </defs>
+                          {/* Bright green fill with eye cutouts */}
+                          <path
+                            d="M 0 20 Q 0 0 20 0 L 92 0 Q 112 0 112 20 L 112 40 Q 112 60 92 60 L 75 60 Q 70 60 68 55 Q 62 45 56 45 Q 50 45 44 55 Q 42 60 37 60 L 20 60 Q 0 60 0 40 Z"
+                            fill="#39FF14"
+                            fillOpacity={0.85}
+                            mask="url(#mvreyemask)"
+                          />
+                          {/* Outline */}
+                          <path
+                            d="M 0 20 Q 0 0 20 0 L 92 0 Q 112 0 112 20 L 112 40 Q 112 60 92 60 L 75 60 Q 70 60 68 55 Q 62 45 56 45 Q 50 45 44 55 Q 42 60 37 60 L 20 60 Q 0 60 0 40 Z"
+                            fill="none"
+                            stroke="#39FF14"
+                            strokeWidth={3}
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      ) : (
+                        <skill.icon 
+                          className="w-9 h-9 text-neon-green" 
+                          aria-label={skill.name}
+                          style={{ filter: 'drop-shadow(0 0 8px rgba(57,255,20,0.25))' }}
+                        />
+                      )}
+                    </motion.div>
 
-                     <h4 className="text-xl font-bold mb-4 text-white group-hover:text-neon-green transition-colors duration-300">
-                       {skill.name}
-                     </h4>
+                    <h4 className="text-xl font-bold mb-4 text-white group-hover:text-neon-green transition-colors duration-300">
+                      {skill.name}
+                    </h4>
 
-                     <p className="text-[#aaa] text-sm leading-relaxed px-3 text-justify-last-center">
-                       {skill.description}
-                     </p>
-                   </div>
-                 </div>
-               </motion.div>
-             ))}
-           </div>
-         </motion.div>
+                    <p className="text-[#aaa] text-sm leading-relaxed px-3 text-justify-last-center">
+                      {skill.description}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
 
          {/* Game Development Section */}
         <motion.div
