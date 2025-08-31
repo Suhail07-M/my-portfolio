@@ -81,6 +81,11 @@ const gameDevSkills = [
     icon: TbGauge,
     description: 'Memory management & rendering efficiency'
   },
+  {
+    name: 'AI Integration',
+    icon: SiOpenai,
+    description: 'Intelligent NPCs & conversational systems'
+  },
 ];
 
 const designSkills = [
@@ -112,11 +117,6 @@ const designSkills = [
 ];
 
 const integrationSkills = [
-  {
-    name: 'AI Integration',
-    icon: SiOpenai,
-    description: 'Intelligent NPCs & conversational systems'
-  },
   {
     name: 'Web Integration',
     icon: MdOutlineWeb,
@@ -164,356 +164,387 @@ export const Skills = () => {
           </p>
         </motion.div>
 
-        {/* Core Development Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="mb-20"
-        >
-          <motion.h3
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-bold mb-12 text-left text-[#39FF14]"
-          >
-            Core Development
-          </motion.h3>
-
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {coreDevSkills.map((skill, index) => (
-              <motion.div
-                key={skill.name}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                whileHover={{ scale: 1.05, y: -10 }}
-                className="group relative"
-              >
-                <div className="bg-[#111] rounded-xl p-8 border border-neon-green/20 hover:border-neon-green/50 transition-all duration-500 h-full backdrop-blur-sm">
-                  {/* Neon glow effect on hover */}
-                  <div className="absolute inset-0 rounded-xl bg-neon-green/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
-                  
-                  <div className="relative z-10 text-center">
-                    {/* Skill Icon */}
-                    <motion.div
-                      whileHover={{ scale: 1.2, rotate: 5 }}
-                      className="inline-flex items-center justify-center w-16 h-16 mb-6 rounded-full bg-neon-green/10 border border-neon-green/30 group-hover:bg-neon-green/20 transition-all duration-300"
-                    >
-                      {skill.name === 'Blender & Maya' ? (
-                        <SiBlender className="w-9 h-9 text-neon-green" aria-label="Blender & Maya" style={{ filter: 'drop-shadow(0 0 8px rgba(57,255,20,0.25))' }} />
-                      ) : (
-                        <skill.icon 
-                          className="w-9 h-9 text-neon-green" 
-                          aria-label={skill.name === 'Script Machine' ? 'Script Machine (node graph icon)' : skill.name}
-                          style={{ filter: 'drop-shadow(0 0 8px rgba(57,255,20,0.25))' }}
-                        />
-                      )}
-                    </motion.div>
-
-                    <h4 className="text-xl font-bold mb-4 text-white group-hover:text-neon-green transition-colors duration-300">
-                      {skill.name}
-                    </h4>
-
-                    <p className="text-[#aaa] text-sm leading-relaxed px-3 text-justify-last-center">
-                      {skill.description}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* XR Development Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="mb-20"
-        >
-          <motion.h3
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-bold mb-12 text-left text-[#39FF14]"
-          >
-            XR Development
-          </motion.h3>
-
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {xrDevSkills.map((skill, index) => (
-              <motion.div
-                key={skill.name}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                whileHover={{ scale: 1.05, y: -10 }}
-                className="group relative"
-              >
-                <div className="bg-[#111] rounded-xl p-8 border border-neon-green/20 hover:border-neon-green/50 transition-all duration-500 h-full backdrop-blur-sm">
-                  {/* Neon glow effect on hover */}
-                  <div className="absolute inset-0 rounded-xl bg-neon-green/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
-                  
-                  <div className="relative z-10 text-center">
-                    {/* Skill Icon */}
-                    <motion.div
-                      whileHover={{ scale: 1.2, rotate: 5 }}
-                      className="inline-flex items-center justify-center w-16 h-16 mb-6 rounded-full bg-neon-green/10 border border-neon-green/30 group-hover:bg-neon-green/20 transition-all duration-300"
-                    >
-                      {skill.name === 'Blender & Maya' ? (
-                        <SiBlender className="w-9 h-9 text-neon-green" aria-label="Blender & Maya" style={{ filter: 'drop-shadow(0 0 8px rgba(57,255,20,0.25))' }} />
-                      ) : skill.name === 'Mobile VR' ? (
-                        <svg
-                          viewBox="0 0 112 60"
-                          className="block mx-auto w-9 h-9"
-                          role="img"
-                          aria-label="Mobile VR"
-                        >
-                          <defs>
-                            <mask id="mvreyemask">
-                              <rect x="0" y="0" width="112" height="60" fill="#fff" />
-                              <circle cx="34" cy="30" r="8" fill="#000" />
-                              <circle cx="78" cy="30" r="8" fill="#000" />
-                            </mask>
-                          </defs>
-                          {/* Bright green fill with eye cutouts */}
-                          <path
-                            d="M 0 20 Q 0 0 20 0 L 92 0 Q 112 0 112 20 L 112 40 Q 112 60 92 60 L 75 60 Q 70 60 68 55 Q 62 45 56 45 Q 50 45 44 55 Q 42 60 37 60 L 20 60 Q 0 60 0 40 Z"
-                            fill="#39FF14"
-                            fillOpacity={0.85}
-                            mask="url(#mvreyemask)"
-                          />
-                          {/* Outline */}
-                          <path
-                            d="M 0 20 Q 0 0 20 0 L 92 0 Q 112 0 112 20 L 112 40 Q 112 60 92 60 L 75 60 Q 70 60 68 55 Q 62 45 56 45 Q 50 45 44 55 Q 42 60 37 60 L 20 60 Q 0 60 0 40 Z"
-                            fill="none"
-                            stroke="#39FF14"
-                            strokeWidth={3}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      ) : (
-                        <skill.icon 
-                          className="w-9 h-9 text-neon-green" 
-                          aria-label={skill.name}
-                          style={{ filter: 'drop-shadow(0 0 8px rgba(57,255,20,0.25))' }}
-                        />
-                      )}
-                    </motion.div>
-
-                    <h4 className="text-xl font-bold mb-4 text-white group-hover:text-neon-green transition-colors duration-300">
-                      {skill.name}
-                    </h4>
-
-                    <p className="text-[#aaa] text-sm leading-relaxed px-3 text-justify-last-center">
-                      {skill.description}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-
-         {/* Game Development Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="mb-20"
-        >
-          <motion.h3
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-bold mb-12 text-left text-[#39FF14]"
-          >
-            Game Development
-          </motion.h3>
-
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {gameDevSkills.map((skill, index) => (
-              <motion.div
-                key={skill.name}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                whileHover={{ scale: 1.05, y: -10 }}
-                className="group relative"
-              >
-                <div className="bg-[#111] rounded-xl p-8 border border-neon-green/20 hover:border-neon-green/50 transition-all duration-500 h-full backdrop-blur-sm">
-                  {/* Neon glow effect on hover */}
-                  <div className="absolute inset-0 rounded-xl bg-neon-green/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
-                  
-                  <div className="relative z-10 text-center">
-                    {/* Skill Icon */}
-                                         <motion.div
-                       whileHover={{ scale: 1.2, rotate: 5 }}
-                       className="inline-flex items-center justify-center w-16 h-16 mb-6 rounded-full bg-neon-green/10 border border-neon-green/30 group-hover:bg-neon-green/20 transition-all duration-300"
-                     >
-                       {skill.name === 'Blender & Maya' ? (
-                         <SiBlender className="w-9 h-9 text-neon-green" aria-label="Blender & Maya" style={{ filter: 'drop-shadow(0 0 8px rgba(57,255,20,0.25))' }} />
-                       ) : (
-                         <skill.icon 
-                           className="w-9 h-9 text-neon-green" 
-                           aria-label={skill.name}
-                           style={{ filter: 'drop-shadow(0 0 8px rgba(57,255,20,0.25))' }}
-                         />
-                       )}
-                     </motion.div>
-
-                     <h4 className="text-xl font-bold mb-4 text-white group-hover:text-neon-green transition-colors duration-300">
-                       {skill.name}
-                     </h4>
-
-                     <p className="text-[#aaa] text-sm leading-relaxed px-3 text-justify-last-center">
-                       {skill.description}
-                     </p>
-                   </div>
-                 </div>
-               </motion.div>
-             ))}
-           </div>
-         </motion.div>
-
-         {/* Design & 3D Content Creation Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="mb-20"
-        >
-          <motion.h3
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-bold mb-12 text-left text-[#39FF14]"
-          >
-            Design & 3D Content Creation
-          </motion.h3>
-
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {designSkills.map((skill, index) => (
-              <motion.div
-                key={skill.name}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                whileHover={{ scale: 1.05, y: -10 }}
-                className="group relative"
-              >
-                <div className="bg-[#111] rounded-xl p-8 border border-neon-green/20 hover:border-neon-green/50 transition-all duration-500 h-full backdrop-blur-sm">
-                  {/* Neon glow effect on hover */}
-                  <div className="absolute inset-0 rounded-xl bg-neon-green/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
-                  
-                  <div className="relative z-10 text-center">
-                    {/* Skill Icon */}
-                                         <motion.div
-                       whileHover={{ scale: 1.2, rotate: 5 }}
-                       className="inline-flex items-center justify-center w-16 h-16 mb-6 rounded-full bg-neon-green/10 border border-neon-green/30 group-hover:bg-neon-green/20 transition-all duration-300"
-                     >
-                       {skill.name === 'Blender & Maya' ? (
-                         <SiBlender className="w-9 h-9 text-neon-green" aria-label="Blender & Maya" style={{ filter: 'drop-shadow(0 0 8px rgba(57,255,20,0.25))' }} />
-                       ) : (
-                         <skill.icon 
-                           className="w-9 h-9 text-neon-green" 
-                           aria-label={skill.name}
-                           style={{ filter: 'drop-shadow(0 0 8px rgba(57,255,20,0.25))' }}
-                         />
-                       )}
-                     </motion.div>
-
-                     <h4 className="text-xl font-bold mb-4 text-white group-hover:text-neon-green transition-colors duration-300">
-                       {skill.name}
-                     </h4>
-
-                     <p className="text-[#aaa] text-sm leading-relaxed px-3 text-justify-last-center">
-                       {skill.description}
-                     </p>
-                   </div>
-                 </div>
-               </motion.div>
-             ))}
-           </div>
-         </motion.div>
-
-         {/* Integration & Tools Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="mb-20"
-        >
-          <motion.h3
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-bold mb-12 text-left text-[#39FF14]"
-          >
-            Integration & Tools
-          </motion.h3>
-
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {integrationSkills.map((skill, index) => (
+        {/* 2-1-2 Layout Container */}
+        <div className="space-y-8 md:space-y-12">
+          {/* First Row: Two topic cards side by side */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Core Development Topic Card */}
             <motion.div
-              key={skill.name}
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
+              transition={{ duration: 0.8 }}
               viewport={{ once: true }}
-              whileHover={{ scale: 1.05, y: -10 }}
-              className="group relative"
+              className="bg-[#111] rounded-xl p-8 border border-neon-green/20 hover:border-neon-green/50 transition-all duration-500 backdrop-blur-sm"
             >
-                <div className="bg-[#111] rounded-xl p-8 border border-neon-green/20 hover:border-neon-green/50 transition-all duration-500 h-full backdrop-blur-sm">
-                {/* Neon glow effect on hover */}
-                <div className="absolute inset-0 rounded-xl bg-neon-green/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
-                
-                  <div className="relative z-10 text-center">
-                  {/* Skill Icon */}
-                  <motion.div
-                    whileHover={{ scale: 1.2, rotate: 5 }}
-                       className="inline-flex items-center justify-center w-16 h-16 mb-6 rounded-full bg-neon-green/10 border border-neon-green/30 group-hover:bg-neon-green/20 transition-all duration-300"
-                     >
-                       {skill.name === 'Blender & Maya' ? (
-                         <SiBlender className="w-9 h-9 text-neon-green" aria-label="Blender & Maya" style={{ filter: 'drop-shadow(0 0 8px rgba(57,255,20,0.25))' }} />
-                       ) : (
-                         <skill.icon 
-                           className="w-9 h-9 text-neon-green" 
-                           aria-label={skill.name}
-                           style={{ filter: 'drop-shadow(0 0 8px rgba(57,255,20,0.25))' }}
-                         />
-                       )}
-                  </motion.div>
+              <motion.h3
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                viewport={{ once: true }}
+                className="text-3xl md:text-4xl font-bold mb-8 text-center text-[#39FF14]"
+              >
+                Core Development
+              </motion.h3>
+              
+                             <div className="flex justify-center gap-4 -mx-8 px-16">
+                 {coreDevSkills.map((skill, index) => (
+                   <motion.div
+                     key={skill.name}
+                     initial={{ opacity: 0, y: 30 }}
+                     whileInView={{ opacity: 1, y: 0 }}
+                     transition={{ duration: 0.6, delay: index * 0.1 }}
+                     viewport={{ once: true }}
+                     whileHover={{ scale: 1.02 }}
+                     className="group relative flex-shrink-0"
+                   >
+                     <div className="text-center w-28 h-60 bg-[#0a0a0a] rounded-lg border border-neon-green/20 p-4 flex flex-col items-center">
+                       {/* Icon section with fixed height */}
+                       <div className="h-16 flex items-center justify-center mb-4">
+                         <motion.div
+                           whileHover={{ scale: 1.1, rotate: 5 }}
+                           className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#0a0a0a] border-2 border-neon-green group-hover:border-neon-green/80 transition-all duration-300"
+                           style={{ aspectRatio: '1/1' }}
+                         >
+                           {skill.name === 'Unity 3D' ? (
+                             <FaUnity className="w-6 h-6 text-neon-green" aria-label="Unity 3D" style={{ filter: 'drop-shadow(0 0 8px rgba(57,255,20,0.3))' }} />
+                           ) : (
+                             <skill.icon 
+                               className="w-6 h-6 text-neon-green" 
+                               aria-label={skill.name}
+                               style={{ filter: 'drop-shadow(0 0 8px rgba(57,255,20,0.3))' }}
+                             />
+                           )}
+                         </motion.div>
+                       </div>
 
-                     <h4 className="text-xl font-bold mb-4 text-white group-hover:text-neon-green transition-colors duration-300">
-                    {skill.name}
-                     </h4>
+                       {/* Title section with fixed height for consistent alignment */}
+                       <div className="h-12 flex items-center justify-center mb-3">
+                         <h4 className="text-sm font-bold text-white group-hover:text-neon-green transition-colors duration-300 leading-tight">
+                           {skill.name}
+                         </h4>
+                       </div>
 
-                     <p className="text-[#aaa] text-sm leading-relaxed px-3 text-justify-last-center">
-                    {skill.description}
-                  </p>
-                </div>
-              </div>
+                       {/* Description section */}
+                       <div className="flex-1 flex items-start justify-center pb-2">
+                         <p className="text-[#aaa] text-xs leading-tight text-center px-1">
+                           {skill.description}
+                         </p>
+                       </div>
+                     </div>
+                   </motion.div>
+                 ))}
+               </div>
             </motion.div>
-          ))}
+
+            {/* XR Development Topic Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+              viewport={{ once: true }}
+              className="bg-[#111] rounded-xl p-8 border border-neon-green/20 hover:border-neon-green/50 transition-all duration-500 backdrop-blur-sm"
+            >
+              <motion.h3
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                viewport={{ once: true }}
+                className="text-3xl md:text-4xl font-bold mb-8 text-center text-[#39FF14]"
+              >
+                XR Development
+              </motion.h3>
+              
+              <div className="flex justify-center gap-4 -mx-8 px-16">
+                 {xrDevSkills.map((skill, index) => (
+                   <motion.div
+                     key={skill.name}
+                     initial={{ opacity: 0, y: 30 }}
+                     whileInView={{ opacity: 1, y: 0 }}
+                     transition={{ duration: 0.6, delay: index * 0.1 }}
+                     viewport={{ once: true }}
+                     whileHover={{ scale: 1.02 }}
+                     className="group relative flex-shrink-0"
+                   >
+                     <div className="text-center w-28 h-60 bg-[#0a0a0a] rounded-lg border border-neon-green/20 p-4 flex flex-col items-center">
+                       {/* Icon section with fixed height */}
+                       <div className="h-16 flex items-center justify-center mb-4">
+                         <motion.div
+                           whileHover={{ scale: 1.1, rotate: 5 }}
+                           className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#0a0a0a] border-2 border-neon-green group-hover:border-neon-green/80 transition-all duration-300"
+                           style={{ aspectRatio: '1/1' }}
+                         >
+                           {skill.name === 'Blender & Maya' ? (
+                             <SiBlender className="w-6 h-6 text-neon-green" aria-label="Blender & Maya" style={{ filter: 'drop-shadow(0 0 8px rgba(57,255,20,0.3))' }} />
+                           ) : skill.name === 'Mobile VR' ? (
+                             <svg
+                               viewBox="0 0 112 60"
+                               className="block mx-auto w-6 h-6"
+                               role="img"
+                               aria-label="Mobile VR"
+                             >
+                               <defs>
+                                 <mask id="mvreyemask">
+                                   <rect x="0" y="0" width="112" height="60" fill="#fff" />
+                                   <circle cx="34" cy="30" r="8" fill="#000" />
+                                   <circle cx="78" cy="30" r="8" fill="#000" />
+                                 </mask>
+                               </defs>
+                               {/* Bright green fill with eye cutouts */}
+                               <path
+                                 d="M 0 20 Q 0 0 20 0 L 92 0 Q 112 0 112 20 L 112 40 Q 112 60 92 60 L 75 60 Q 70 60 68 55 Q 62 45 56 45 Q 50 45 44 55 Q 42 60 37 60 L 20 60 Q 0 60 0 40 Z"
+                                 fill="#39FF14"
+                                 fillOpacity={0.85}
+                                 mask="url(#mvreyemask)"
+                               />
+                               {/* Outline */}
+                               <path
+                                 d="M 0 20 Q 0 0 20 0 L 92 0 Q 112 0 112 20 L 112 40 Q 112 60 92 60 L 75 60 Q 70 60 68 55 Q 62 45 56 45 Q 50 45 44 55 Q 42 60 37 60 L 20 60 Q 0 60 0 40 Z"
+                                 fill="none"
+                                 stroke="#39FF14"
+                                 strokeWidth={3}
+                                 strokeLinecap="round"
+                                 strokeLinejoin="round"
+                               />
+                             </svg>
+                           ) : (
+                             <skill.icon 
+                               className="w-6 h-6 text-neon-green" 
+                               aria-label={skill.name}
+                               style={{ filter: 'drop-shadow(0 0 8px rgba(57,255,20,0.3))' }}
+                             />
+                           )}
+                         </motion.div>
+                       </div>
+
+                       {/* Title section with fixed height for consistent alignment */}
+                       <div className="h-12 flex items-center justify-center mb-3">
+                         <h4 className="text-sm font-bold text-white group-hover:text-neon-green transition-colors duration-300 leading-tight">
+                           {skill.name}
+                         </h4>
+                       </div>
+
+                       {/* Description section */}
+                       <div className="flex-1 flex items-start justify-center pb-2">
+                         <p className="text-[#aaa] text-xs leading-tight text-center px-1">
+                           {skill.description}
+                         </p>
+                       </div>
+                     </div>
+                   </motion.div>
+                 ))}
+               </div>
+            </motion.div>
+          </div>
+
+          {/* Second Row: One full-width topic card */}
+          <div className="flex justify-center">
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="bg-[#111] rounded-xl p-8 border border-neon-green/20 hover:border-neon-green/50 transition-all duration-500 backdrop-blur-sm max-w-4xl w-full"
+            >
+              <motion.h3
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                viewport={{ once: true }}
+                className="text-3xl md:text-4xl font-bold mb-8 text-center text-[#39FF14]"
+              >
+                Game Development
+              </motion.h3>
+              
+              <div className="flex flex-wrap justify-center gap-3 md:gap-12 px-4 md:px-8 -mx-4 md:-mx-8">
+                 {gameDevSkills.map((skill, index) => (
+                   <motion.div
+                     key={skill.name}
+                     initial={{ opacity: 0, y: 30 }}
+                     whileInView={{ opacity: 1, y: 0 }}
+                     transition={{ duration: 0.6, delay: index * 0.1 }}
+                     viewport={{ once: true }}
+                     whileHover={{ scale: 1.02 }}
+                     className="group relative flex-shrink-0"
+                   >
+                     <div className="text-center w-24 h-52 md:w-40 md:h-48 bg-[#0a0a0a] rounded-lg border border-neon-green/20 p-3 md:p-4 flex flex-col items-center">
+                       {/* Icon section with fixed height */}
+                       <div className="h-12 md:h-16 flex items-center justify-center mb-3 md:mb-4">
+                         <motion.div
+                           whileHover={{ scale: 1.1, rotate: 5 }}
+                           className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#0a0a0a] border-2 border-neon-green group-hover:border-neon-green/80 transition-all duration-300"
+                           style={{ aspectRatio: '1/1' }}
+                         >
+                           {skill.name === 'Blender & Maya' ? (
+                             <SiBlender className="w-6 h-6 text-neon-green" aria-label="Blender & Maya" style={{ filter: 'drop-shadow(0 0 8px rgba(57,255,20,0.3))' }} />
+                           ) : (
+                             <skill.icon 
+                               className="w-6 h-6 text-neon-green" 
+                               aria-label={skill.name}
+                               style={{ filter: 'drop-shadow(0 0 8px rgba(57,255,20,0.3))' }}
+                             />
+                           )}
+                         </motion.div>
+                       </div>
+
+                       {/* Title section with fixed height for consistent alignment */}
+                       <div className="h-12 flex items-center justify-center mb-3">
+                         <h4 className="text-sm font-bold text-white group-hover:text-neon-green transition-colors duration-300 leading-tight">
+                           {skill.name}
+                         </h4>
+                       </div>
+
+                       {/* Description section */}
+                       <div className="flex-1 flex items-start justify-center pb-2">
+                         <p className="text-[#aaa] text-xs leading-tight text-center px-1">
+                           {skill.description}
+                         </p>
+                       </div>
+                     </div>
+                   </motion.div>
+                 ))}
+               </div>
+            </motion.div>
+          </div>
+
+          {/* Third Row: Two topic cards side by side */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Design & 3D Content Creation Topic Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              viewport={{ once: true }}
+              className="bg-[#111] rounded-xl p-8 border border-neon-green/20 hover:border-neon-green/50 transition-all duration-500 backdrop-blur-sm"
+            >
+              <motion.h3
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+                viewport={{ once: true }}
+                className="text-3xl md:text-4xl font-bold mb-8 text-center text-[#39FF14]"
+              >
+                Design & 3D Content Creation
+              </motion.h3>
+              
+              <div className="flex justify-center gap-4 -mx-8 px-16">
+                 {designSkills.map((skill, index) => (
+                   <motion.div
+                     key={skill.name}
+                     initial={{ opacity: 0, y: 30 }}
+                     whileInView={{ opacity: 1, y: 0 }}
+                     transition={{ duration: 0.6, delay: index * 0.1 }}
+                     viewport={{ once: true }}
+                     whileHover={{ scale: 1.02 }}
+                     className="group relative flex-shrink-0"
+                   >
+                     <div className="text-center w-28 h-60 bg-[#0a0a0a] rounded-lg border border-neon-green/20 p-4 flex flex-col items-center">
+                       {/* Icon section with fixed height */}
+                       <div className="h-16 flex items-center justify-center mb-4">
+                         <motion.div
+                           whileHover={{ scale: 1.1, rotate: 5 }}
+                           className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#0a0a0a] border-2 border-neon-green group-hover:border-neon-green/80 transition-all duration-300"
+                           style={{ aspectRatio: '1/1' }}
+                         >
+                           {skill.name === 'Blender & Maya' ? (
+                             <SiBlender className="w-6 h-6 text-neon-green" aria-label="Blender & Maya" style={{ filter: 'drop-shadow(0 0 8px rgba(57,255,20,0.3))' }} />
+                           ) : (
+                             <skill.icon 
+                               className="w-6 h-6 text-neon-green" 
+                               aria-label={skill.name}
+                               style={{ filter: 'drop-shadow(0 0 8px rgba(57,255,20,0.3))' }}
+                             />
+                           )}
+                         </motion.div>
+                       </div>
+
+                       {/* Title section with fixed height for consistent alignment */}
+                       <div className="h-12 flex items-center justify-center mb-3">
+                         <h4 className="text-sm font-bold text-white group-hover:text-neon-green transition-colors duration-300 leading-tight">
+                           {skill.name}
+                         </h4>
+                       </div>
+
+                       {/* Description section */}
+                       <div className="flex-1 flex items-start justify-center pb-2">
+                         <p className="text-[#aaa] text-xs leading-tight text-center px-1">
+                           {skill.description}
+                         </p>
+                       </div>
+                     </div>
+                   </motion.div>
+                 ))}
+               </div>
+            </motion.div>
+
+            {/* Integration & Tools Topic Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              viewport={{ once: true }}
+              className="bg-[#111] rounded-xl p-8 border border-neon-green/20 hover:border-neon-green/50 transition-all duration-500 backdrop-blur-sm"
+            >
+              <motion.h3
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+                viewport={{ once: true }}
+                className="text-3xl md:text-4xl font-bold mb-8 text-center text-[#39FF14]"
+              >
+                Integration & Tools
+              </motion.h3>
+              
+              <div className="flex justify-center gap-4 -mx-8 px-16">
+                 {integrationSkills.map((skill, index) => (
+                   <motion.div
+                     key={skill.name}
+                     initial={{ opacity: 0, y: 30 }}
+                     whileInView={{ opacity: 1, y: 0 }}
+                     transition={{ duration: 0.6, delay: index * 0.1 }}
+                     viewport={{ once: true }}
+                     whileHover={{ scale: 1.02 }}
+                     className="group relative flex-shrink-0"
+                   >
+                     <div className="text-center w-28 h-60 bg-[#0a0a0a] rounded-lg border border-neon-green/20 p-4 flex flex-col items-center">
+                       {/* Icon section with fixed height */}
+                       <div className="h-16 flex items-center justify-center mb-4">
+                         <motion.div
+                           whileHover={{ scale: 1.1, rotate: 5 }}
+                           className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#0a0a0a] border-2 border-neon-green group-hover:border-neon-green/80 transition-all duration-300"
+                           style={{ aspectRatio: '1/1' }}
+                         >
+                           {skill.name === 'Blender & Maya' ? (
+                             <SiBlender className="w-6 h-6 text-neon-green" aria-label="Blender & Maya" style={{ filter: 'drop-shadow(0 0 8px rgba(57,255,20,0.3))' }} />
+                           ) : (
+                             <skill.icon 
+                               className="w-6 h-6 text-neon-green" 
+                               aria-label={skill.name}
+                               style={{ filter: 'drop-shadow(0 0 8px rgba(57,255,20,0.3))' }}
+                             />
+                           )}
+                         </motion.div>
+                       </div>
+
+                       {/* Title section with fixed height for consistent alignment */}
+                       <div className="h-12 flex items-center justify-center mb-3">
+                         <h4 className="text-sm font-bold text-white group-hover:text-neon-green transition-colors duration-300 leading-tight">
+                           {skill.name}
+                         </h4>
+                       </div>
+
+                       {/* Description section */}
+                       <div className="flex-1 flex items-start justify-center pb-2">
+                         <p className="text-[#aaa] text-xs leading-tight text-center px-1">
+                           {skill.description}
+                         </p>
+                       </div>
+                     </div>
+                   </motion.div>
+                 ))}
+               </div>
+            </motion.div>
+          </div>
         </div>
-         </motion.div>
       </div>
     </section>
   );

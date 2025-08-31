@@ -1,14 +1,31 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
+
+const navLinks = [
+  { name: 'Home', href: 'home' },
+  { name: 'Skills', href: 'skills' },
+  { name: 'Projects', href: 'projects' },
+  { name: 'Resume', href: 'resume' },
+  { name: 'Contact', href: 'contact' }
+];
+
 export const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const scrollToSection = useCallback((sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      setIsMobileMenuOpen(false);
+    }
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
 
-      // Update active section based on scroll position
       const sections = ['home', 'skills', 'projects', 'resume', 'contact'];
       const current = sections.find(section => {
         const element = document.getElementById(section);
@@ -18,93 +35,69 @@ export const Navigation = () => {
         }
         return false;
       });
-      if (current) {
-        setActiveSection(current);
-      }
+      if (current) setActiveSection(current);
     };
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile menu when clicking outside or scrolling
   useEffect(() => {
+    if (!isMobileMenuOpen) return;
+
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Element;
-      if (isMobileMenuOpen && !target.closest('nav')) {
-        setIsMobileMenuOpen(false);
-      }
+      if (!target.closest('nav')) setIsMobileMenuOpen(false);
     };
 
-    const handleScroll = () => {
-      if (isMobileMenuOpen) {
-        setIsMobileMenuOpen(false);
-      }
-    };
+    const handleScroll = () => setIsMobileMenuOpen(false);
 
-    if (isMobileMenuOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-      window.addEventListener('scroll', handleScroll);
-    }
+    document.addEventListener('mousedown', handleClickOutside);
+    window.addEventListener('scroll', handleScroll);
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
       window.removeEventListener('scroll', handleScroll);
     };
   }, [isMobileMenuOpen]);
-  const navLinks = [{
-    name: 'Home',
-    href: 'home'
-  }, {
-    name: 'Skills',
-    href: 'skills'
-  }, {
-    name: 'Projects',
-    href: 'projects'
-  }, {
-    name: 'Resume',
-    href: 'resume'
-  }, {
-    name: 'Contact',
-    href: 'contact'
-  }];
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({
-        behavior: 'smooth'
-      });
-      // Close mobile menu after navigation
-      setIsMobileMenuOpen(false);
-    }
-  };
-  return <motion.nav initial={{
-    y: -100
-  }} animate={{
-    y: 0
-  }} className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-background/90 backdrop-blur-md border-b border-neon-green/20' : 'bg-transparent'}`}>
+
+  return (
+    <motion.nav
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+        isScrolled ? 'bg-background/90 backdrop-blur-md border-b border-neon-green/20' : 'bg-transparent'
+      }`}
+    >
       <div className="container mx-auto px-6 py-4">
         <div className="flex justify-between items-center">
-          {/* Logo */}
-          <motion.div whileHover={{
-          scale: 1.05
-        }} className="text-2xl font-bold cursor-pointer" onClick={() => scrollToSection('home')}>
-            <span className="text-foreground"></span>
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            className="text-2xl font-bold cursor-pointer"
+            onClick={() => scrollToSection('home')}
+          >
             <span className="text-neon-green px-0">PORTFOLIO</span>
           </motion.div>
 
-          {/* Navigation Links - Desktop */}
           <div className="hidden lg:flex space-x-8">
-            {navLinks.map(link => <motion.button key={link.name} onClick={() => scrollToSection(link.href)} whileHover={{
-            scale: 1.1
-          }} whileTap={{
-            scale: 0.95
-          }} className={`transition-colors duration-300 font-medium relative group ${activeSection === link.href ? 'text-neon-green' : 'text-muted-foreground hover:text-neon-green'}`}>
+            {navLinks.map(link => (
+              <motion.button
+                key={link.name}
+                onClick={() => scrollToSection(link.href)}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                className={`transition-colors duration-300 font-medium relative group ${
+                  activeSection === link.href ? 'text-neon-green' : 'text-muted-foreground hover:text-neon-green'
+                }`}
+              >
                 {link.name}
-                <span className={`absolute -bottom-1 left-0 h-0.5 bg-neon-green transition-all duration-300 ${activeSection === link.href ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
-              </motion.button>)}
+                <span className={`absolute -bottom-1 left-0 h-0.5 bg-neon-green transition-all duration-300 ${
+                  activeSection === link.href ? 'w-full' : 'w-0 group-hover:w-full'
+                }`} />
+              </motion.button>
+            ))}
           </div>
 
-          {/* Mobile Navigation Links - Right Side Dropdown */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: -10 }}
             animate={{ 
@@ -134,7 +127,6 @@ export const Navigation = () => {
             </div>
           </motion.div>
 
-          {/* Mobile Menu Button */}
           <motion.button 
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
@@ -147,5 +139,6 @@ export const Navigation = () => {
           </motion.button>
         </div>
       </div>
-    </motion.nav>;
+    </motion.nav>
+  );
 };
