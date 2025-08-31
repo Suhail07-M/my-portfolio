@@ -197,9 +197,9 @@ export const Skills = () => {
                      whileHover={{ scale: 1.02 }}
                      className="group relative"
                    >
-                     <div className="text-center w-full h-60 bg-[#0a0a0a] rounded-lg border border-neon-green/20 p-3 md:p-4 flex flex-col items-center">
+                     <div className="text-center w-full h-60 bg-[#0a0a0a] rounded-lg border border-neon-green/20 p-3 md:p-4 flex flex-col">
                        {/* Icon section with fixed height */}
-                       <div className="h-16 flex items-center justify-center mb-4">
+                       <div className="h-16 flex items-center justify-center mb-3">
                          <motion.div
                            whileHover={{ scale: 1.1, rotate: 5 }}
                            className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#0a0a0a] border-2 border-neon-green group-hover:border-neon-green/80 transition-all duration-300"
@@ -217,15 +217,15 @@ export const Skills = () => {
                          </motion.div>
                        </div>
 
-                       {/* Title section with fixed height for consistent alignment */}
-                       <div className="h-12 flex items-center justify-center mb-3">
+                       {/* Title section with fixed height and center alignment */}
+                       <div className="h-16 flex items-center justify-center mb-3">
                          <h4 className="text-sm font-bold text-white group-hover:text-neon-green transition-colors duration-300 leading-tight">
                            {skill.name}
                          </h4>
                        </div>
 
-                       {/* Description section */}
-                       <div className="flex-1 flex items-start justify-center pb-2">
+                       {/* Description section with fixed baseline */}
+                       <div className="flex-1 flex items-start justify-center">
                          <p className="text-[#aaa] text-xs leading-tight text-center px-1">
                            {skill.description}
                          </p>
@@ -265,9 +265,9 @@ export const Skills = () => {
                      whileHover={{ scale: 1.02 }}
                      className="group relative"
                    >
-                     <div className="text-center w-full h-60 bg-[#0a0a0a] rounded-lg border border-neon-green/20 p-3 md:p-4 flex flex-col items-center">
+                     <div className="text-center w-full h-60 bg-[#0a0a0a] rounded-lg border border-neon-green/20 p-3 md:p-4 flex flex-col">
                        {/* Icon section with fixed height */}
-                       <div className="h-16 flex items-center justify-center mb-4">
+                       <div className="h-16 flex items-center justify-center mb-3">
                          <motion.div
                            whileHover={{ scale: 1.1, rotate: 5 }}
                            className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#0a0a0a] border-2 border-neon-green group-hover:border-neon-green/80 transition-all duration-300"
@@ -316,15 +316,15 @@ export const Skills = () => {
                          </motion.div>
                        </div>
 
-                       {/* Title section with fixed height for consistent alignment */}
-                       <div className="h-12 flex items-center justify-center mb-3">
+                       {/* Title section with fixed height and center alignment */}
+                       <div className="h-16 flex items-center justify-center mb-3">
                          <h4 className="text-sm font-bold text-white group-hover:text-neon-green transition-colors duration-300 leading-tight">
                            {skill.name}
                          </h4>
                        </div>
 
-                       {/* Description section */}
-                       <div className="flex-1 flex items-start justify-center pb-2">
+                       {/* Description section with fixed baseline */}
+                       <div className="flex-1 flex items-start justify-center">
                          <p className="text-[#aaa] text-xs leading-tight text-center px-1">
                            {skill.description}
                          </p>
@@ -366,9 +366,9 @@ export const Skills = () => {
                      whileHover={{ scale: 1.02 }}
                      className="group relative"
                    >
-                     <div className="text-center w-full h-48 md:h-52 bg-[#0a0a0a] rounded-lg border border-neon-green/20 p-3 md:p-4 flex flex-col items-center">
+                     <div className="text-center w-full h-48 md:h-52 bg-[#0a0a0a] rounded-lg border border-neon-green/20 p-3 md:p-4 flex flex-col">
                        {/* Icon section with fixed height */}
-                       <div className="h-12 md:h-16 flex items-center justify-center mb-3 md:mb-4">
+                       <div className="h-12 md:h-16 flex items-center justify-center mb-3">
                          <motion.div
                            whileHover={{ scale: 1.1, rotate: 5 }}
                            className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#0a0a0a] border-2 border-neon-green group-hover:border-neon-green/80 transition-all duration-300"
@@ -386,15 +386,15 @@ export const Skills = () => {
                          </motion.div>
                        </div>
 
-                       {/* Title section with fixed height for consistent alignment */}
-                       <div className="h-12 flex items-center justify-center mb-3">
+                       {/* Title section with fixed height and center alignment */}
+                       <div className="h-12 md:h-16 flex items-center justify-center mb-3">
                          <h4 className="text-sm font-bold text-white group-hover:text-neon-green transition-colors duration-300 leading-tight">
                            {skill.name}
                          </h4>
                        </div>
 
-                       {/* Description section */}
-                       <div className="flex-1 flex items-start justify-center pb-2">
+                       {/* Description section with fixed baseline */}
+                       <div className="flex-1 flex items-start justify-center">
                          <p className="text-[#aaa] text-xs leading-tight text-center px-1">
                            {skill.description}
                          </p>
@@ -437,9 +437,9 @@ export const Skills = () => {
                      whileHover={{ scale: 1.02 }}
                      className="group relative"
                    >
-                     <div className="text-center w-full h-60 bg-[#0a0a0a] rounded-lg border border-neon-green/20 p-3 md:p-4 flex flex-col items-center">
+                     <div className="text-center w-full h-60 bg-[#0a0a0a] rounded-lg border border-neon-green/20 p-3 md:p-4 flex flex-col">
                        {/* Icon section with fixed height */}
-                       <div className="h-16 flex items-center justify-center mb-4">
+                       <div className="h-16 flex items-center justify-center mb-3">
                          <motion.div
                            whileHover={{ scale: 1.1, rotate: 5 }}
                            className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#0a0a0a] border-2 border-neon-green group-hover:border-neon-green/80 transition-all duration-300"
@@ -457,15 +457,15 @@ export const Skills = () => {
                          </motion.div>
                        </div>
 
-                       {/* Title section with fixed height for consistent alignment */}
-                       <div className="h-12 flex items-center justify-center mb-3">
+                       {/* Title section with fixed height and center alignment */}
+                       <div className="h-16 flex items-center justify-center mb-3">
                          <h4 className="text-sm font-bold text-white group-hover:text-neon-green transition-colors duration-300 leading-tight">
                            {skill.name}
                          </h4>
                        </div>
 
-                       {/* Description section */}
-                       <div className="flex-1 flex items-start justify-center pb-2">
+                       {/* Description section with fixed baseline */}
+                       <div className="flex-1 flex items-start justify-center">
                          <p className="text-[#aaa] text-xs leading-tight text-center px-1">
                            {skill.description}
                          </p>
@@ -505,9 +505,9 @@ export const Skills = () => {
                      whileHover={{ scale: 1.02 }}
                      className="group relative"
                    >
-                     <div className="text-center w-full h-60 bg-[#0a0a0a] rounded-lg border border-neon-green/20 p-3 md:p-4 flex flex-col items-center">
+                     <div className="text-center w-full h-60 bg-[#0a0a0a] rounded-lg border border-neon-green/20 p-3 md:p-4 flex flex-col">
                        {/* Icon section with fixed height */}
-                       <div className="h-16 flex items-center justify-center mb-4">
+                       <div className="h-16 flex items-center justify-center mb-3">
                          <motion.div
                            whileHover={{ scale: 1.1, rotate: 5 }}
                            className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#0a0a0a] border-2 border-neon-green group-hover:border-neon-green/80 transition-all duration-300"
@@ -525,15 +525,15 @@ export const Skills = () => {
                          </motion.div>
                        </div>
 
-                       {/* Title section with fixed height for consistent alignment */}
-                       <div className="h-12 flex items-center justify-center mb-3">
+                       {/* Title section with fixed height and center alignment */}
+                       <div className="h-16 flex items-center justify-center mb-3">
                          <h4 className="text-sm font-bold text-white group-hover:text-neon-green transition-colors duration-300 leading-tight">
                            {skill.name}
                          </h4>
                        </div>
 
-                       {/* Description section */}
-                       <div className="flex-1 flex items-start justify-center pb-2">
+                       {/* Description section with fixed baseline */}
+                       <div className="flex-1 flex items-start justify-center">
                          <p className="text-[#aaa] text-xs leading-tight text-center px-1">
                            {skill.description}
                          </p>
