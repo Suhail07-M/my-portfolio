@@ -186,7 +186,7 @@ export const Skills = () => {
                 Core Development
               </motion.h3>
               
-                             <div className="flex justify-center gap-4 -mx-8 px-16">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 md:gap-4">
                  {coreDevSkills.map((skill, index) => (
                    <motion.div
                      key={skill.name}
@@ -195,9 +195,9 @@ export const Skills = () => {
                      transition={{ duration: 0.6, delay: index * 0.1 }}
                      viewport={{ once: true }}
                      whileHover={{ scale: 1.02 }}
-                     className="group relative flex-shrink-0"
+                     className="group relative"
                    >
-                     <div className="text-center w-28 h-60 bg-[#0a0a0a] rounded-lg border border-neon-green/20 p-4 flex flex-col items-center">
+                     <div className="text-center w-full h-60 bg-[#0a0a0a] rounded-lg border border-neon-green/20 p-3 md:p-4 flex flex-col items-center">
                        {/* Icon section with fixed height */}
                        <div className="h-16 flex items-center justify-center mb-4">
                          <motion.div
@@ -254,7 +254,7 @@ export const Skills = () => {
                 XR Development
               </motion.h3>
               
-              <div className="flex justify-center gap-4 -mx-8 px-16">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 md:gap-4">
                  {xrDevSkills.map((skill, index) => (
                    <motion.div
                      key={skill.name}
@@ -263,9 +263,9 @@ export const Skills = () => {
                      transition={{ duration: 0.6, delay: index * 0.1 }}
                      viewport={{ once: true }}
                      whileHover={{ scale: 1.02 }}
-                     className="group relative flex-shrink-0"
+                     className="group relative"
                    >
-                     <div className="text-center w-28 h-60 bg-[#0a0a0a] rounded-lg border border-neon-green/20 p-4 flex flex-col items-center">
+                     <div className="text-center w-full h-60 bg-[#0a0a0a] rounded-lg border border-neon-green/20 p-3 md:p-4 flex flex-col items-center">
                        {/* Icon section with fixed height */}
                        <div className="h-16 flex items-center justify-center mb-4">
                          <motion.div
@@ -355,7 +355,7 @@ export const Skills = () => {
                 Game Development
               </motion.h3>
               
-              <div className="flex flex-wrap justify-center gap-3 md:gap-12 px-4 md:px-8 -mx-4 md:-mx-8">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 md:gap-4">
                  {gameDevSkills.map((skill, index) => (
                    <motion.div
                      key={skill.name}
@@ -364,9 +364,9 @@ export const Skills = () => {
                      transition={{ duration: 0.6, delay: index * 0.1 }}
                      viewport={{ once: true }}
                      whileHover={{ scale: 1.02 }}
-                     className="group relative flex-shrink-0"
+                     className="group relative"
                    >
-                     <div className="text-center w-24 h-52 md:w-40 md:h-48 bg-[#0a0a0a] rounded-lg border border-neon-green/20 p-3 md:p-4 flex flex-col items-center">
+                     <div className="text-center w-full h-48 md:h-52 bg-[#0a0a0a] rounded-lg border border-neon-green/20 p-3 md:p-4 flex flex-col items-center">
                        {/* Icon section with fixed height */}
                        <div className="h-12 md:h-16 flex items-center justify-center mb-3 md:mb-4">
                          <motion.div
@@ -426,7 +426,7 @@ export const Skills = () => {
                 Design & 3D Content Creation
               </motion.h3>
               
-              <div className="flex justify-center gap-4 -mx-8 px-16">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 md:gap-4">
                  {designSkills.map((skill, index) => (
                    <motion.div
                      key={skill.name}
@@ -435,9 +435,9 @@ export const Skills = () => {
                      transition={{ duration: 0.6, delay: index * 0.1 }}
                      viewport={{ once: true }}
                      whileHover={{ scale: 1.02 }}
-                     className="group relative flex-shrink-0"
+                     className="group relative"
                    >
-                     <div className="text-center w-28 h-60 bg-[#0a0a0a] rounded-lg border border-neon-green/20 p-4 flex flex-col items-center">
+                     <div className="text-center w-full h-60 bg-[#0a0a0a] rounded-lg border border-neon-green/20 p-3 md:p-4 flex flex-col items-center">
                        {/* Icon section with fixed height */}
                        <div className="h-16 flex items-center justify-center mb-4">
                          <motion.div
@@ -494,7 +494,7 @@ export const Skills = () => {
                 Integration & Tools
               </motion.h3>
               
-              <div className="flex justify-center gap-4 -mx-8 px-16">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 md:gap-4">
                  {integrationSkills.map((skill, index) => (
                    <motion.div
                      key={skill.name}
@@ -503,9 +503,9 @@ export const Skills = () => {
                      transition={{ duration: 0.6, delay: index * 0.1 }}
                      viewport={{ once: true }}
                      whileHover={{ scale: 1.02 }}
-                     className="group relative flex-shrink-0"
+                     className="group relative"
                    >
-                     <div className="text-center w-28 h-60 bg-[#0a0a0a] rounded-lg border border-neon-green/20 p-4 flex flex-col items-center">
+                     <div className="text-center w-full h-60 bg-[#0a0a0a] rounded-lg border border-neon-green/20 p-3 md:p-4 flex flex-col items-center">
                        {/* Icon section with fixed height */}
                        <div className="h-16 flex items-center justify-center mb-4">
                          <motion.div
