@@ -100,7 +100,8 @@ export const Projects = () => {
         </motion.div>
 
         <div className="projects-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {projects.map((project, index) => (
+          {/* Row 1: First three cards normal grid items */}
+          {projects.slice(0, 3).map((project, index) => (
             <motion.div
               key={project.id}
               initial={{ opacity: 0, y: 50 }}
@@ -108,34 +109,24 @@ export const Projects = () => {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
               whileHover={{ scale: 1.02, y: -10 }}
-              className={`group relative cursor-pointer project-card ${
-                index === 3 ? 'md:col-start-1 md:col-span-1 lg:col-start-1 lg:col-span-1' : 
-                index === 4 ? 'md:col-start-2 md:col-span-1 lg:col-start-2 lg:col-span-1' : ''
-              }`}
+              className="group relative cursor-pointer project-card"
               onClick={() => handleProjectClick(project.id)}
             >
               <div className="bg-card rounded-xl p-8 border border-neon-green/20 hover:border-neon-green/50 transition-all duration-500 h-full backdrop-blur-sm">
-                {/* Neon glow effect on hover */}
                 <div className="absolute inset-0 rounded-xl bg-neon-green/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
-                
                 <div className="relative z-10">
-                  {/* Project Icon/Image */}
                   <motion.div
                     whileHover={{ scale: 1.1, rotate: 5 }}
                     className="text-6xl mb-6 text-center group-hover:drop-shadow-[0_0_20px_rgba(57,255,20,0.7)] transition-all duration-300"
                   >
                     {project.image}
                   </motion.div>
-
                   <h3 className="text-2xl font-bold mb-4 text-foreground group-hover:text-neon-green transition-colors duration-300">
                     {project.title}
                   </h3>
-
                   <p className="text-muted-foreground mb-6 line-clamp-3">
                     {project.description}
                   </p>
-
-                  {/* Technologies */}
                   <div className="flex flex-wrap gap-2 mb-6">
                     {project.technologies.map((tech) => (
                       <span
@@ -146,8 +137,6 @@ export const Projects = () => {
                       </span>
                     ))}
                   </div>
-
-                  {/* Project Links */}
                   <div className="flex gap-4">
                     {project.links.github && (
                       <motion.a
@@ -160,7 +149,6 @@ export const Projects = () => {
                         <span className="text-sm">Code</span>
                       </motion.a>
                     )}
-                    
                     {project.links.live && (
                       <motion.a
                         href={project.links.live}
@@ -172,7 +160,6 @@ export const Projects = () => {
                         <span className="text-sm">Live</span>
                       </motion.a>
                     )}
-                    
                     {project.links.store && (
                       <motion.a
                         href={project.links.store}
@@ -189,6 +176,162 @@ export const Projects = () => {
               </div>
             </motion.div>
           ))}
+
+          {/* For tablet/mobile: render 4th and 5th as normal grid items, hide on lg */}
+          {projects.slice(3, 5).map((project, idx) => (
+            <motion.div
+              key={`${project.id}-md`}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: (3 + idx) * 0.1 }}
+              viewport={{ once: true }}
+              whileHover={{ scale: 1.02, y: -10 }}
+              className="group relative cursor-pointer project-card lg:hidden"
+              onClick={() => handleProjectClick(project.id)}
+            >
+              <div className="bg-card rounded-xl p-8 border border-neon-green/20 hover:border-neon-green/50 transition-all duration-500 h-full backdrop-blur-sm">
+                <div className="absolute inset-0 rounded-xl bg-neon-green/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
+                <div className="relative z-10">
+                  <motion.div
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                    className="text-6xl mb-6 text-center group-hover:drop-shadow-[0_0_20px_rgba(57,255,20,0.7)] transition-all duration-300"
+                  >
+                    {project.image}
+                  </motion.div>
+                  <h3 className="text-2xl font-bold mb-4 text-foreground group-hover:text-neon-green transition-colors duration-300">
+                    {project.title}
+                  </h3>
+                  <p className="text-muted-foreground mb-6 line-clamp-3">
+                    {project.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {project.technologies.map((tech) => (
+                      <span
+                        key={tech}
+                        className="px-3 py-1 text-xs font-medium bg-neon-green/10 text-neon-green border border-neon-green/30 rounded-full"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="flex gap-4">
+                    {project.links.github && (
+                      <motion.a
+                        href={project.links.github}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="flex items-center gap-2 px-4 py-2 bg-transparent border border-neon-green/50 text-neon-green rounded-lg hover:bg-neon-green/10 transition-all duration-300"
+                      >
+                        <Github size={16} />
+                        <span className="text-sm">Code</span>
+                      </motion.a>
+                    )}
+                    {project.links.live && (
+                      <motion.a
+                        href={project.links.live}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="flex items-center gap-2 px-4 py-2 bg-neon-green text-background rounded-lg hover:bg-neon-green/90 transition-all duration-300 font-medium"
+                      >
+                        <ExternalLink size={16} />
+                        <span className="text-sm">Live</span>
+                      </motion.a>
+                    )}
+                    {project.links.store && (
+                      <motion.a
+                        href={project.links.store}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="flex items-center gap-2 px-4 py-2 bg-transparent border border-neon-green/50 text-neon-green rounded-lg hover:bg-neon-green/10 transition-all duration-300"
+                      >
+                        <Smartphone size={16} />
+                        <span className="text-sm">Store</span>
+                      </motion.a>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+
+          {/* Desktop: wrap last two cards centered in a flex row spanning all 3 columns */}
+          <div className="hidden lg:flex lg:col-span-3 justify-center gap-8 projects-last-row">
+            {projects.slice(3, 5).map((project, idx) => (
+              <motion.div
+                key={`${project.id}-lg`}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: (3 + idx) * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{ scale: 1.02, y: -10 }}
+                className="group relative cursor-pointer project-card"
+                onClick={() => handleProjectClick(project.id)}
+              >
+                <div className="bg-card rounded-xl p-8 border border-neon-green/20 hover:border-neon-green/50 transition-all duration-500 h-full backdrop-blur-sm">
+                  <div className="absolute inset-0 rounded-xl bg-neon-green/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
+                  <div className="relative z-10">
+                    <motion.div
+                      whileHover={{ scale: 1.1, rotate: 5 }}
+                      className="text-6xl mb-6 text-center group-hover:drop-shadow-[0_0_20px_rgba(57,255,20,0.7)] transition-all duration-300"
+                    >
+                      {project.image}
+                    </motion.div>
+                    <h3 className="text-2xl font-bold mb-4 text-foreground group-hover:text-neon-green transition-colors duration-300">
+                      {project.title}
+                    </h3>
+                    <p className="text-muted-foreground mb-6 line-clamp-3">
+                      {project.description}
+                    </p>
+                    <div className="flex flex-wrap gap-2 mb-6">
+                      {project.technologies.map((tech) => (
+                        <span
+                          key={tech}
+                          className="px-3 py-1 text-xs font-medium bg-neon-green/10 text-neon-green border border-neon-green/30 rounded-full"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="flex gap-4">
+                      {project.links.github && (
+                        <motion.a
+                          href={project.links.github}
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="flex items-center gap-2 px-4 py-2 bg-transparent border border-neon-green/50 text-neon-green rounded-lg hover:bg-neon-green/10 transition-all duration-300"
+                        >
+                          <Github size={16} />
+                          <span className="text-sm">Code</span>
+                        </motion.a>
+                      )}
+                      {project.links.live && (
+                        <motion.a
+                          href={project.links.live}
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="flex items-center gap-2 px-4 py-2 bg-neon-green text-background rounded-lg hover:bg-neon-green/90 transition-all duration-300 font-medium"
+                        >
+                          <ExternalLink size={16} />
+                          <span className="text-sm">Live</span>
+                        </motion.a>
+                      )}
+                      {project.links.store && (
+                        <motion.a
+                          href={project.links.store}
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="flex items-center gap-2 px-4 py-2 bg-transparent border border-neon-green/50 text-neon-green rounded-lg hover:bg-neon-green/10 transition-all duration-300"
+                        >
+                          <Smartphone size={16} />
+                          <span className="text-sm">Store</span>
+                        </motion.a>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
 
         <motion.div
