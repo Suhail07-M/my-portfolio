@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { ExternalLink, Github, Smartphone } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import './Projects.css';
 
 interface Project {
   id: string;
@@ -25,6 +26,17 @@ const projects: Project[] = [
     links: {
       github: '#',
       store: '#'
+    }
+  },
+  {
+    id: 'space-reality',
+    title: 'Space Reality',
+    description: 'Immersive space exploration experience with realistic physics and stunning visuals',
+    image: '🚀',
+    technologies: ['Unity', 'C#', 'XR Toolkit', 'Physics Simulation'],
+    links: {
+      github: '#',
+      live: '#'
     }
   },
   {
@@ -87,7 +99,7 @@ export const Projects = () => {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+        <div className="projects-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
           {projects.map((project, index) => (
             <motion.div
               key={project.id}
@@ -96,7 +108,10 @@ export const Projects = () => {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
               whileHover={{ scale: 1.02, y: -10 }}
-              className="group relative cursor-pointer"
+              className={`group relative cursor-pointer project-card ${
+                index === 3 ? 'md:col-start-1 md:col-span-1 lg:col-start-1 lg:col-span-1' : 
+                index === 4 ? 'md:col-start-2 md:col-span-1 lg:col-start-2 lg:col-span-1' : ''
+              }`}
               onClick={() => handleProjectClick(project.id)}
             >
               <div className="bg-card rounded-xl p-8 border border-neon-green/20 hover:border-neon-green/50 transition-all duration-500 h-full backdrop-blur-sm">

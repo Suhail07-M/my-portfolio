@@ -1,3 +1,30 @@
+/* Integration & Tools: desktop/tablet position-only offset to mirror Core Development */
+@media (min-width: 768px) {
+  .integration-grid-offset {
+    margin-left: -1rem !important;
+    margin-right: -1rem !important;
+    margin-top: -1rem !important;
+    margin-bottom: -1rem !important;
+  }
+}
+/* Design & 3D Creation: desktop/tablet position-only offset to mirror Core Development */
+@media (min-width: 768px) {
+  .design-grid-offset {
+    margin-left: -1rem !important;
+    margin-right: -1rem !important;
+    margin-top: -1rem !important;
+    margin-bottom: -1rem !important;
+  }
+}
+/* Game Development desktop: force 4 equal tracks to center 4 cards evenly */
+@media (min-width: 1024px) {
+  .game-dev-grid-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+}
+
+/* Game Development desktop: adjust first/last card positions to equalize border gaps */
+/* (removed) Game Development per-item margins: reverted */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -140,4 +167,640 @@ All colors MUST be HSL.
   .text-justify-last-center {
     text-align: center;
   }
+}
+
+/* Force spacing optimization for skill cards (desktop/tablet only) */
+@media (min-width: 768px) {
+  .skill-card-optimized .icon-spacing {
+    margin-bottom: 0.5rem !important; /* Consistent spacing for all cards */
+    height: 3rem !important; /* h-12 equivalent */
+  }
+}
+
+/* Mobile: revert icon spacing to original comfortable gaps */
+@media (max-width: 767px) {
+  .skill-card-optimized .icon-spacing {
+    margin-bottom: 0.75rem !important; /* ~mb-3 */
+    height: 4rem !important; /* ~h-16 */
+  }
+}
+
+/* Core Dev title tweaks (desktop only) */
+@media (min-width: 768px) {
+  .skill-card-optimized .script-machine-title {
+    margin-top: -0.1rem !important; /* Align first line with C# Programming */
+  }
+}
+/* Mobile: reset title tweaks */
+@media (max-width: 767px) {
+  .skill-card-optimized .script-machine-title {
+    margin-top: 0 !important;
+  }
+}
+
+/* XR Dev titles (desktop only) */
+@media (min-width: 768px) {
+  .skill-card-optimized .vuforia-title {
+    margin-top: -0.5rem !important; /* Move title higher to match Mobile VR */
+  }
+}
+/* Mobile VR - title alignment (desktop only) */
+@media (min-width: 768px) {
+  .skill-card-optimized .mobile-vr-title {
+    margin-top: 0.2rem !important; /* Further downward nudge for title */
+  }
+}
+@media (max-width: 767px) {
+  .skill-card-optimized .mobile-vr-title {
+    margin-top: 0 !important;
+  }
+}
+@media (max-width: 767px) {
+  .skill-card-optimized .vuforia-title {
+    margin-top: -1.1rem !important; /* Mobile-only: move title further upward */
+  }
+}
+
+/* XR Interaction Systems - adjust description height (desktop only) */
+@media (min-width: 768px) {
+  .skill-card-optimized .xr-interaction-description {
+    height: 3.5rem !important; /* Move content lower - set to 3.5rem */
+    min-height: 3.5rem !important; /* Force minimum height */
+    max-height: 3.5rem !important; /* Force maximum height */
+    align-items: flex-start !important; /* First line alignment instead of bottom */
+  }
+}
+
+/* Ensure all description content ends at same bottom line (desktop only) */
+@media (min-width: 768px) {
+  .skill-card-optimized .flex-1 {
+    display: flex !important;
+    align-items: flex-end !important; /* Bottom alignment for all descriptions */
+    justify-content: center !important;
+  }
+}
+/* Mobile: default to natural flow (first-line alignment) */
+@media (max-width: 767px) {
+  .skill-card-optimized .flex-1 {
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+  }
+}
+
+/* Mobile-only icon spacing helper for sections that need larger gap */
+@media (max-width: 767px) {
+  .icon-spacing-mobile {
+    margin-bottom: 0.75rem !important; /* equal to mb-3 */
+  }
+}
+
+/* Core Development: tighter mobile spacing */
+@media (max-width: 767px) {
+  .icon-spacing-core {
+    margin-bottom: 0.5rem !important; /* slightly tighter than others */
+  }
+}
+
+/* Mobile-only: slightly larger text inside skill cards */
+@media (max-width: 767px) {
+  .skill-card-optimized h4 {
+    font-size: 0.95rem !important; /* ~text-base- close to */
+    line-height: 1.2 !important;
+  }
+  .skill-card-optimized p {
+    font-size: 0.875rem !important; /* bump a bit more for readability */
+    line-height: 1.25 !important;
+  }
+}
+
+/* Core Development grid offset: preserve outer padding, visually align border gap to inner gap */
+@media (max-width: 767px) {
+  /* 1.25rem = p-5 visual pull; matches approx p-8 inner layout with gap-3 */
+  .core-dev-grid-offset {
+    margin-left: -1.25rem !important;
+    margin-right: -1.25rem !important;
+    margin-top: -1.25rem !important;
+    margin-bottom: -1.25rem !important;
+  }
+}
+
+/* Desktop/tablet: subtle offset to visually equalize border and internal gaps without changing sizes */
+@media (min-width: 768px) {
+  .core-dev-grid-offset {
+    margin-left: -1rem !important;
+    margin-right: -1rem !important;
+    margin-top: -1rem !important;
+    margin-bottom: -1rem !important;
+  }
+}
+
+/* XR Development: desktop/tablet position-only offset to equalize border vs internal gaps */
+@media (min-width: 768px) {
+  .xr-dev-grid-offset {
+    margin-left: -1rem !important;
+    margin-right: -1rem !important;
+    margin-top: -1rem !important;
+    margin-bottom: -1rem !important;
+  }
+}
+
+/* (removed) Game Development offset: reverted to default spacing */
+
+/* Force XR Interaction Systems description height (desktop only) - more specific selector */
+@media (min-width: 768px) {
+  div.skill-card-optimized div.xr-interaction-description {
+    height: 3.5rem !important;
+    min-height: 3.5rem !important;
+    max-height: 3.5rem !important;
+    flex: none !important; /* Override flex-1 */
+    align-items: flex-start !important; /* First line alignment instead of bottom */
+  }
+}
+@media (max-width: 767px) {
+  div.skill-card-optimized div.xr-interaction-description {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    flex: initial !important;
+    align-items: flex-start !important;
+    padding-top: 0 !important;
+  }
+}
+
+/* AR Foundation - content positioning (desktop only) */
+@media (min-width: 768px) {
+  .skill-card-optimized .ar-foundation-description {
+    height: 3.5rem !important;
+    min-height: 3.5rem !important;
+    max-height: 3.5rem !important;
+    align-items: flex-start !important; /* First line alignment instead of bottom */
+  }
+}
+
+/* Force AR Foundation description height (desktop only) */
+@media (min-width: 768px) {
+  div.skill-card-optimized div.ar-foundation-description {
+    height: 3.5rem !important;
+    min-height: 3.5rem !important;
+    max-height: 3.5rem !important;
+    flex: none !important; /* Override flex-1 */
+    align-items: flex-start !important; /* First line alignment instead of bottom */
+  }
+}
+@media (max-width: 767px) {
+  div.skill-card-optimized div.ar-foundation-description {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    flex: initial !important;
+    align-items: flex-start !important;
+    padding-top: 0 !important;
+  }
+}
+
+/* Oculus SDK - content positioning (desktop only) */
+@media (min-width: 768px) {
+  .skill-card-optimized .oculus-sdk-description {
+    height: 3.5rem !important;
+    min-height: 3.5rem !important;
+    max-height: 3.5rem !important;
+    align-items: flex-start !important; /* First line alignment instead of bottom */
+  }
+}
+
+/* Force Oculus SDK description height (desktop only) */
+@media (min-width: 768px) {
+  div.skill-card-optimized div.oculus-sdk-description {
+    height: 3.5rem !important;
+    min-height: 3.5rem !important;
+    max-height: 3.5rem !important;
+    flex: none !important; /* Override flex-1 */
+    align-items: flex-start !important; /* First line alignment instead of bottom */
+  }
+}
+@media (max-width: 767px) {
+  div.skill-card-optimized div.oculus-sdk-description {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    flex: initial !important;
+    align-items: flex-start !important;
+    padding-top: 0 !important;
+  }
+}
+
+/* Vuforia SDK - content positioning (desktop only) */
+@media (min-width: 768px) {
+  .skill-card-optimized .vuforia-sdk-description {
+    height: 3.5rem !important;
+    min-height: 3.5rem !important;
+    max-height: 3.5rem !important;
+    align-items: flex-start !important; /* First line alignment instead of bottom */
+  }
+}
+
+/* Force Vuforia SDK description height (desktop only) */
+@media (min-width: 768px) {
+  div.skill-card-optimized div.vuforia-sdk-description {
+    height: 3.5rem !important;
+    min-height: 3.5rem !important;
+    max-height: 3.5rem !important;
+    flex: none !important; /* Override flex-1 */
+    align-items: flex-start !important; /* First line alignment instead of bottom */
+  }
+}
+@media (max-width: 767px) {
+  div.skill-card-optimized div.vuforia-sdk-description {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    flex: initial !important;
+    align-items: flex-start !important;
+    padding-top: 0 !important;
+  }
+}
+
+/* Script Machine - content positioning (desktop only) */
+@media (min-width: 768px) {
+  .skill-card-optimized .script-machine-description {
+    height: 3.5rem !important;
+    min-height: 3.5rem !important;
+    max-height: 3.5rem !important;
+    align-items: flex-end !important; /* Bottom alignment to match C# Programming */
+  }
+}
+
+/* Force Script Machine description height (desktop only) */
+@media (min-width: 768px) {
+  div.skill-card-optimized div.script-machine-description {
+    height: 3.5rem !important;
+    min-height: 3.5rem !important;
+    max-height: 3.5rem !important;
+    flex: none !important; /* Override flex-1 */
+    align-items: flex-end !important; /* Bottom alignment to match C# Programming */
+  }
+}
+@media (max-width: 767px) {
+  div.skill-card-optimized div.script-machine-description {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    flex: initial !important;
+    align-items: flex-start !important;
+    padding-top: 0 !important;
+  }
+}
+
+/* Unreal Engine - content positioning (desktop only) */
+@media (min-width: 768px) {
+  .skill-card-optimized .unreal-engine-description {
+    height: 3.5rem !important;
+    min-height: 3.5rem !important;
+    max-height: 3.5rem !important;
+    align-items: flex-start !important; /* First line alignment to match C# Programming */
+  }
+}
+
+/* Force Unreal Engine description height (desktop only) */
+@media (min-width: 768px) {
+  div.skill-card-optimized div.unreal-engine-description {
+    height: 3.5rem !important;
+    min-height: 3.5rem !important;
+    max-height: 3.5rem !important;
+    flex: none !important; /* Override flex-1 */
+    align-items: flex-start !important; /* First line alignment to match C# Programming */
+  }
+}
+@media (max-width: 767px) {
+  div.skill-card-optimized div.unreal-engine-description {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    flex: initial !important;
+    align-items: flex-start !important;
+    padding-top: 0 !important;
+  }
+}
+
+/* Testing & Debugging - content positioning (desktop only) */
+@media (min-width: 768px) {
+  .skill-card-optimized .testing-debugging-description {
+    height: 3.5rem !important;
+    min-height: 3.5rem !important;
+    max-height: 3.5rem !important;
+    align-items: flex-start !important; /* First line alignment to match C# Programming */
+  }
+}
+
+/* Force Testing & Debugging description height (desktop only) */
+@media (min-width: 768px) {
+  div.skill-card-optimized div.testing-debugging-description {
+    height: 3.5rem !important;
+    min-height: 3.5rem !important;
+    max-height: 3.5rem !important;
+    flex: none !important; /* Override flex-1 */
+    align-items: flex-start !important; /* First line alignment to match C# Programming */
+  }
+}
+@media (max-width: 767px) {
+  div.skill-card-optimized div.testing-debugging-description {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    flex: initial !important;
+    align-items: flex-start !important;
+    padding-top: 0 !important;
+  }
+}
+
+/* Multiplayer Networking - title alignment (desktop only) */
+@media (min-width: 768px) {
+  .multiplayer-title {
+    margin-top: -0.4rem !important; /* move further down */
+  }
+}
+@media (max-width: 767px) {
+  .multiplayer-title {
+    margin-top: -1.4rem !important; /* Mobile-only: fine-tune upward position */
+  }
+}
+
+/* Spatial Design - title alignment (desktop only) */
+@media (min-width: 768px) {
+  .spatial-title {
+    margin-top: -0.7rem !important;
+  }
+}
+@media (max-width: 767px) {
+  .spatial-title {
+    margin-top: 0 !important;
+  }
+}
+
+/* Spatial Design - description (desktop only) */
+@media (min-width: 768px) {
+  .spatial-description {
+    height: 3.5rem !important;
+    min-height: 3.5rem !important;
+    max-height: 3.5rem !important;
+    display: flex !important;
+    align-items: flex-start !important; /* first line alignment */
+    justify-content: center !important;
+    flex: none !important; /* override flex-1 for consistent height */
+    padding-top: 0.25rem !important; /* nudge first-line down to match UI/UX */
+  }
+}
+@media (max-width: 767px) {
+  .spatial-description {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    flex: initial !important;
+    padding-top: 0 !important;
+  }
+}
+
+/* Animation Creation & Control - title (desktop only) */
+@media (min-width: 768px) {
+  .animation-title {
+    margin-top: -1rem !important;
+  }
+}
+
+/* Prototyping - title alignment (desktop only) */
+@media (min-width: 768px) {
+  .prototyping-title {
+    margin-top: -0.8rem !important; /* move upward to align visually */
+  }
+}
+@media (max-width: 767px) {
+  .animation-title {
+    margin-top: 0 !important;
+  }
+}
+
+/* Animation Creation & Control - description (desktop only) */
+@media (min-width: 768px) {
+  .animation-description {
+    height: 3.5rem !important;
+    min-height: 3.5rem !important;
+    max-height: 3.5rem !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    flex: none !important;
+    padding-top: 0.25rem !important;
+  }
+}
+@media (max-width: 767px) {
+  .animation-description {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    flex: initial !important;
+    padding-top: 0 !important;
+  }
+}
+
+/* Version Control - title (desktop only) */
+@media (min-width: 768px) {
+  .version-title {
+    margin-top: -1.1rem !important; /* move title slightly downward */
+  }
+}
+@media (max-width: 767px) {
+  .version-title {
+    margin-top: 0 !important;
+  }
+}
+
+/* Project Management - title (desktop only) */
+@media (min-width: 768px) {
+  .project-title {
+    margin-top: -1rem !important;
+  }
+}
+@media (max-width: 767px) {
+  .project-title {
+    margin-top: 0 !important;
+  }
+}
+
+/* Addressable Asset System - title (desktop only) */
+@media (min-width: 768px) {
+  .addressable-title {
+    margin-top: -1rem !important;
+  }
+}
+@media (max-width: 767px) {
+  .addressable-title {
+    margin-top: 0 !important;
+  }
+}
+
+/* Addressable Asset System - description (desktop only) */
+@media (min-width: 768px) {
+  .addressable-description {
+    height: 3.5rem !important;
+    min-height: 3.5rem !important;
+    max-height: 3.5rem !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    flex: none !important;
+    padding-top: 0.22rem !important;
+  }
+}
+@media (max-width: 767px) {
+  .addressable-description {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    flex: initial !important;
+    padding-top: 0 !important;
+  }
+}
+
+/* Cross-platform Deployment - title (desktop only) */
+@media (min-width: 768px) {
+  .deployment-title {
+    margin-top: -1rem !important;
+  }
+}
+@media (max-width: 767px) {
+  .deployment-title {
+    margin-top: 0 !important;
+  }
+}
+
+/* Cross-platform Deployment - description (desktop only) */
+@media (min-width: 768px) {
+  .deployment-description {
+    height: 3.5rem !important;
+    min-height: 3.5rem !important;
+    max-height: 3.5rem !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    flex: none !important;
+    padding-top: 0.22rem !important;
+  }
+}
+@media (max-width: 767px) {
+  .deployment-description {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    flex: initial !important;
+    padding-top: 0 !important;
+  }
+}
+
+/* Force Cross-platform Deployment description height (desktop only) */
+@media (min-width: 768px) {
+  div.skill-card-optimized div.deployment-description {
+    height: 3.5rem !important;
+    min-height: 3.5rem !important;
+    max-height: 3.5rem !important;
+    flex: none !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    display: flex !important;
+    padding-top: 0.22rem !important;
+  }
+}
+@media (max-width: 767px) {
+  div.skill-card-optimized div.deployment-description {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    flex: initial !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    display: flex !important;
+    padding-top: 0 !important;
+  }
+}
+
+/* Force Addressable Asset System description height (desktop only) */
+@media (min-width: 768px) {
+  div.skill-card-optimized div.addressable-description {
+    height: 3.5rem !important;
+    min-height: 3.5rem !important;
+    max-height: 3.5rem !important;
+    flex: none !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    display: flex !important;
+    padding-top: 0.22rem !important;
+  }
+}
+@media (max-width: 767px) {
+  div.skill-card-optimized div.addressable-description {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    flex: initial !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    display: flex !important;
+    padding-top: 0 !important;
+  }
+}
+
+/* Mobile-only: make Addressable Asset System logo→title gap exactly 0.5rem */
+@media (max-width: 767px) {
+  .skill-card-optimized .addressable-title {
+    margin-top: -1rem !important; /* further upward move for mobile title */
+  }
+}
+
+/* Fluid scaling for large displays: keep 1920 baseline intact, scale above */
+@media (min-width: 1921px) {
+	html {
+		/* 0.833vw = 16px at 1920px. Clamp to avoid oversizing on 3K/4K */
+		font-size: clamp(16px, 0.833vw, 24px);
+	}
+}
+
+/* Optional slight bump for very tall 4K where width is not extreme (e.g., 2160p portrait) */
+@media (min-height: 1441px) and (min-width: 1921px) {
+	html {
+		font-size: clamp(16px, 0.9vw, 24px);
+	}
+}
+
+/* Ensure no accidental horizontal scroll on ultra-wide scaling */
+html, body {
+	overflow-x: hidden;
+}
+
+/* Widescreen container scaling: widen content and reduce side borders on very large displays */
+@media (min-width: 1921px) {
+	.skills-section .container {
+		max-width: 90vw !important; /* widen from ~80% to ~90% */
+	}
+}
+@media (min-width: 2560px) {
+	.skills-section .container {
+		max-width: 88vw !important; /* maintain comfortable margins on 2K/4K */
+	}
+}
+@media (min-width: 3440px) {
+	.skills-section .container {
+		max-width: 85vw !important; /* ultrawide: avoid too-long line lengths */
+	}
 }

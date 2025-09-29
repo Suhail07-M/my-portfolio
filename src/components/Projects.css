@@ -1,0 +1,55 @@
+/* Simple 3x2 Project Grid Layout */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Row 1: First 3 cards fill naturally */
+.project-card:nth-child(1),
+.project-card:nth-child(2),
+.project-card:nth-child(3) {
+  /* Natural grid positioning */
+}
+
+/* Row 2: Last 2 cards centered */
+.project-card:nth-child(4) {
+  grid-column: 2 / 3;
+}
+
+.project-card:nth-child(5) {
+  grid-column: 3 / 4;
+}
+
+/* Responsive Breakpoints */
+
+/* Tablet (< 1024px): 2+2+1 layout */
+@media (max-width: 1023px) {
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .project-card:nth-child(4) {
+    grid-column: 1 / 2;
+  }
+  
+  .project-card:nth-child(5) {
+    grid-column: 2 / 3;
+  }
+}
+
+/* Mobile (< 768px): Single column */
+@media (max-width: 767px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .project-card:nth-child(4),
+  .project-card:nth-child(5) {
+    grid-column: 1;
+  }
+}
+

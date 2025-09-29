@@ -9,6 +9,7 @@ import { TbGauge } from 'react-icons/tb';
 import { HiOutlineBeaker } from 'react-icons/hi';
 import { RiTaskLine } from 'react-icons/ri';
 
+// Core Development Skills - Updated spacing v2.0
 const coreDevSkills = [
   {
     name: 'Unity 3D',
@@ -146,7 +147,7 @@ const integrationSkills = [
 
 export const Skills = () => {
   return (
-    <section id="skills" className="py-24 relative">
+    <section id="skills" className="py-24 relative skills-section">
       <div className="container mx-auto px-6">
         {/* Main Section Heading */}
         <motion.div
@@ -154,7 +155,7 @@ export const Skills = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-24"
+          className="text-center mb-14"
         >
           <h2 className="text-6xl md:text-8xl font-bold mb-8">
             <span className="text-[#39FF14]">Skills</span> & Expertise
@@ -186,7 +187,7 @@ export const Skills = () => {
                 Core Development
               </motion.h3>
               
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 md:gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 md:gap-4 core-dev-grid-offset">
                  {coreDevSkills.map((skill, index) => (
                    <motion.div
                      key={skill.name}
@@ -197,9 +198,9 @@ export const Skills = () => {
                      whileHover={{ scale: 1.02 }}
                      className="group relative"
                    >
-                     <div className="text-center w-full h-60 bg-[#0a0a0a] rounded-lg border border-neon-green/20 p-3 md:p-4 flex flex-col">
+                     <div className="text-center w-full h-60 bg-[#0a0a0a] rounded-lg border border-neon-green/20 p-3 md:p-4 flex flex-col skill-card-optimized">
                        {/* Icon section with fixed height */}
-                       <div className="h-16 flex items-center justify-center mb-3">
+                       <div className="h-12 flex items-center justify-center mb-1 icon-spacing-core">
                          <motion.div
                            whileHover={{ scale: 1.1, rotate: 5 }}
                            className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#0a0a0a] border-2 border-neon-green group-hover:border-neon-green/80 transition-all duration-300"
@@ -218,14 +219,14 @@ export const Skills = () => {
                        </div>
 
                        {/* Title section with fixed height and center alignment */}
-                       <div className="h-16 flex items-center justify-center mb-3">
-                         <h4 className="text-sm font-bold text-white group-hover:text-neon-green transition-colors duration-300 leading-tight">
+                       <div className={`h-14 md:h-16 flex items-center justify-center mb-2 md:mb-3 ${skill.name === 'Script Machine' ? 'script-machine-title' : ''}`}>
+                         <h4 className="text-sm font-bold text-white group-hover:text-neon-green transition-colors duration-300 leading-tight text-center">
                            {skill.name}
                          </h4>
                        </div>
 
-                       {/* Description section with fixed baseline */}
-                       <div className="flex-1 flex items-start justify-center">
+                       {/* Description section with consistent bottom alignment */}
+                       <div className={`flex-1 flex items-end justify-center ${skill.name === 'Script Machine' ? 'script-machine-description' : ''} ${skill.name === 'Unreal Engine' ? 'unreal-engine-description' : ''} ${skill.name === 'Testing & Debugging' ? 'testing-debugging-description' : ''}`}>
                          <p className="text-[#aaa] text-xs leading-tight text-center px-1">
                            {skill.description}
                          </p>
@@ -254,7 +255,7 @@ export const Skills = () => {
                 XR Development
               </motion.h3>
               
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 md:gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 md:gap-4 xr-dev-grid-offset">
                  {xrDevSkills.map((skill, index) => (
                    <motion.div
                      key={skill.name}
@@ -265,9 +266,9 @@ export const Skills = () => {
                      whileHover={{ scale: 1.02 }}
                      className="group relative"
                    >
-                     <div className="text-center w-full h-60 bg-[#0a0a0a] rounded-lg border border-neon-green/20 p-3 md:p-4 flex flex-col">
+                     <div className="text-center w-full h-60 bg-[#0a0a0a] rounded-lg border border-neon-green/20 p-3 md:p-4 flex flex-col skill-card-optimized">
                        {/* Icon section with fixed height */}
-                       <div className="h-16 flex items-center justify-center mb-3">
+                       <div className="h-12 flex items-center justify-center mb-1 icon-spacing">
                          <motion.div
                            whileHover={{ scale: 1.1, rotate: 5 }}
                            className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#0a0a0a] border-2 border-neon-green group-hover:border-neon-green/80 transition-all duration-300"
@@ -317,14 +318,14 @@ export const Skills = () => {
                        </div>
 
                        {/* Title section with fixed height and center alignment */}
-                       <div className="h-16 flex items-center justify-center mb-3">
-                         <h4 className="text-sm font-bold text-white group-hover:text-neon-green transition-colors duration-300 leading-tight">
+                       <div className={`h-16 flex items-center justify-center mb-3 ${skill.name === 'Mobile VR' ? 'mobile-vr-title' : ''} ${skill.name === 'Vuforia SDK' || skill.name === 'Oculus SDK' || skill.name === 'AR Foundation' || skill.name === 'XR Interaction Systems' ? 'vuforia-title' : ''}`}>
+                         <h4 className="text-sm font-bold text-white group-hover:text-neon-green transition-colors duration-300 leading-tight text-center">
                            {skill.name}
                          </h4>
                        </div>
 
-                       {/* Description section with fixed baseline */}
-                       <div className="flex-1 flex items-start justify-center">
+                       {/* Description section with consistent bottom alignment */}
+                       <div className={`flex-1 flex items-end justify-center ${skill.name === 'XR Interaction Systems' ? 'xr-interaction-description' : ''} ${skill.name === 'AR Foundation' ? 'ar-foundation-description' : ''} ${skill.name === 'Oculus SDK' ? 'oculus-sdk-description' : ''} ${skill.name === 'Vuforia SDK' ? 'vuforia-sdk-description' : ''}`}>
                          <p className="text-[#aaa] text-xs leading-tight text-center px-1">
                            {skill.description}
                          </p>
@@ -355,7 +356,7 @@ export const Skills = () => {
                 Game Development
               </motion.h3>
               
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 md:gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 md:gap-4 game-dev-grid-4">
                  {gameDevSkills.map((skill, index) => (
                    <motion.div
                      key={skill.name}
@@ -368,7 +369,7 @@ export const Skills = () => {
                    >
                      <div className="text-center w-full h-48 md:h-52 bg-[#0a0a0a] rounded-lg border border-neon-green/20 p-3 md:p-4 flex flex-col">
                        {/* Icon section with fixed height */}
-                       <div className="h-12 md:h-16 flex items-center justify-center mb-3">
+                       <div className="h-16 flex items-center justify-center mb-3 icon-spacing-mobile">
                          <motion.div
                            whileHover={{ scale: 1.1, rotate: 5 }}
                            className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#0a0a0a] border-2 border-neon-green group-hover:border-neon-green/80 transition-all duration-300"
@@ -387,7 +388,7 @@ export const Skills = () => {
                        </div>
 
                        {/* Title section with fixed height and center alignment */}
-                       <div className="h-12 md:h-16 flex items-center justify-center mb-3">
+                       <div className={`h-16 md:h-16 flex items-center justify-center mb-3 ${skill.name === 'Multiplayer Networking' ? 'multiplayer-title' : ''}`}>
                          <h4 className="text-sm font-bold text-white group-hover:text-neon-green transition-colors duration-300 leading-tight">
                            {skill.name}
                          </h4>
@@ -426,7 +427,7 @@ export const Skills = () => {
                 Design & 3D Content Creation
               </motion.h3>
               
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 md:gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 md:gap-4 design-grid-offset">
                  {designSkills.map((skill, index) => (
                    <motion.div
                      key={skill.name}
@@ -437,7 +438,7 @@ export const Skills = () => {
                      whileHover={{ scale: 1.02 }}
                      className="group relative"
                    >
-                     <div className="text-center w-full h-60 bg-[#0a0a0a] rounded-lg border border-neon-green/20 p-3 md:p-4 flex flex-col">
+                     <div className="text-center w-full h-60 bg-[#0a0a0a] rounded-lg border border-neon-green/20 p-3 md:p-4 flex flex-col skill-card-optimized">
                        {/* Icon section with fixed height */}
                        <div className="h-16 flex items-center justify-center mb-3">
                          <motion.div
@@ -458,14 +459,14 @@ export const Skills = () => {
                        </div>
 
                        {/* Title section with fixed height and center alignment */}
-                       <div className="h-16 flex items-center justify-center mb-3">
+                       <div className={`h-16 flex items-center justify-center mb-3 ${skill.name === 'Spatial Design' ? 'spatial-title' : ''} ${skill.name === 'Animation Creation & Control' ? 'animation-title' : ''} ${skill.name === 'Prototyping' ? 'prototyping-title' : ''}`}>
                          <h4 className="text-sm font-bold text-white group-hover:text-neon-green transition-colors duration-300 leading-tight">
                            {skill.name}
                          </h4>
                        </div>
 
                        {/* Description section with fixed baseline */}
-                       <div className="flex-1 flex items-start justify-center">
+                       <div className={`flex-1 flex items-start justify-center ${skill.name === 'Spatial Design' ? 'spatial-description' : ''} ${skill.name === 'Animation Creation & Control' ? 'animation-description' : ''}`}>
                          <p className="text-[#aaa] text-xs leading-tight text-center px-1">
                            {skill.description}
                          </p>
@@ -494,7 +495,7 @@ export const Skills = () => {
                 Integration & Tools
               </motion.h3>
               
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 md:gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 md:gap-4 integration-grid-offset">
                  {integrationSkills.map((skill, index) => (
                    <motion.div
                      key={skill.name}
@@ -505,7 +506,7 @@ export const Skills = () => {
                      whileHover={{ scale: 1.02 }}
                      className="group relative"
                    >
-                     <div className="text-center w-full h-60 bg-[#0a0a0a] rounded-lg border border-neon-green/20 p-3 md:p-4 flex flex-col">
+                     <div className="text-center w-full h-60 bg-[#0a0a0a] rounded-lg border border-neon-green/20 p-3 md:p-4 flex flex-col skill-card-optimized">
                        {/* Icon section with fixed height */}
                        <div className="h-16 flex items-center justify-center mb-3">
                          <motion.div
@@ -526,14 +527,14 @@ export const Skills = () => {
                        </div>
 
                        {/* Title section with fixed height and center alignment */}
-                       <div className="h-16 flex items-center justify-center mb-3">
+                       <div className={`h-16 flex items-center justify-center mb-3 ${skill.name === 'Version Control' ? 'version-title' : ''} ${skill.name === 'Project Management' ? 'project-title' : ''} ${skill.name === 'Addressable Asset System' ? 'addressable-title' : ''} ${skill.name === 'Cross-platform Deployment' ? 'deployment-title' : ''}`}>
                          <h4 className="text-sm font-bold text-white group-hover:text-neon-green transition-colors duration-300 leading-tight">
                            {skill.name}
                          </h4>
                        </div>
 
                        {/* Description section with fixed baseline */}
-                       <div className="flex-1 flex items-start justify-center">
+                       <div className={`flex-1 flex items-start justify-center ${skill.name === 'Addressable Asset System' ? 'addressable-description' : ''}`}>
                          <p className="text-[#aaa] text-xs leading-tight text-center px-1">
                            {skill.description}
                          </p>
@@ -549,3 +550,4 @@ export const Skills = () => {
     </section>
   );
 };
+
