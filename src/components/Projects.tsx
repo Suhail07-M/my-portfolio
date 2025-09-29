@@ -20,9 +20,9 @@ const projects: Project[] = [
   {
     id: 'meiphor',
     title: 'Meiphor',
-    description: 'Advanced XR application with immersive user interfaces and real-time interactions',
-    image: '🎮',
-    technologies: ['Unity', 'C#', 'XR Toolkit', 'AR Foundation'],
+    description: 'An Augmented Reality Educational App for Students',
+    image: 'https://i.postimg.cc/x8rRWFM4/logosm.png',
+    technologies: ['Unity', 'C#', 'Vuforia SDK', 'QR Code Scanner', 'WebView Integration'],
     links: {
       github: '#',
       store: '#'
@@ -31,9 +31,9 @@ const projects: Project[] = [
   {
     id: 'space-reality',
     title: 'Space Reality',
-    description: 'Immersive space exploration experience with realistic physics and stunning visuals',
-    image: '🚀',
-    technologies: ['Unity', 'C#', 'XR Toolkit', 'Physics Simulation'],
+    description: 'AR educational app for space technology concepts',
+    image: 'https://i.postimg.cc/k4kqt5wx/SPACE-REALITY-3-Copy.png',
+    technologies: ['Unity', 'C#', 'Addressable', 'Version Control', 'Performance Optimization'],
     links: {
       github: '#',
       live: '#'
@@ -114,20 +114,32 @@ export const Projects = () => {
             >
               <div className="bg-card rounded-xl p-8 border border-neon-green/20 hover:border-neon-green/50 transition-all duration-500 h-full backdrop-blur-sm">
                 <div className="absolute inset-0 rounded-xl bg-neon-green/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
-                <div className="relative z-10">
-                  <motion.div
-                    whileHover={{ scale: 1.1, rotate: 5 }}
-                    className="text-6xl mb-6 text-center group-hover:drop-shadow-[0_0_20px_rgba(57,255,20,0.7)] transition-all duration-300"
-                  >
-                    {project.image}
-                  </motion.div>
-                  <h3 className="text-2xl font-bold mb-4 text-foreground group-hover:text-neon-green transition-colors duration-300">
+                <div className="relative z-10 flex flex-col h-full">
+                  <div className="relative h-[88px]">
+                    <motion.div
+                      initial={project.id === 'meiphor' ? { y: -21 } : undefined}
+                      animate={project.id === 'meiphor' ? { y: -21 } : undefined}
+                      whileHover={project.id === 'meiphor' ? { scale: 1.1, rotate: 5, y: -25 } : { scale: 1.1, rotate: 5 }}
+                      className={`absolute inset-x-0 top-0 flex justify-center group-hover:drop-shadow-[0_0_20px_rgba(57,255,20,0.7)] transition-all duration-300 ${project.id === 'meiphor' ? 'origin-top' : ''}`}
+                    >
+                      {project.image.startsWith('http') ? (
+                        <img
+                          src={project.image}
+                          alt={`${project.title} logo`}
+                          className={`${project.id === 'meiphor' ? 'h-[104px] w-[104px]' : 'h-16 w-16'} object-contain`}
+                        />
+                      ) : (
+                        <span className={`${project.id === 'meiphor' ? 'text-9xl' : 'text-6xl'} leading-none`}>{project.image}</span>
+                      )}
+                    </motion.div>
+                  </div>
+                  <h3 className="text-[28px] font-bold mb-4 text-foreground group-hover:text-neon-green transition-colors duration-300 -mt-2 text-center">
                     {project.title}
                   </h3>
-                  <p className="text-muted-foreground mb-6 line-clamp-3">
+                  <p className="text-muted-foreground mb-6 line-clamp-3 text-justify -mt-3">
                     {project.description}
                   </p>
-                  <div className="flex flex-wrap gap-2 mb-6">
+                  <div className="flex flex-wrap items-center justify-center gap-2 mb-6">
                     {project.technologies.map((tech) => (
                       <span
                         key={tech}
@@ -137,10 +149,39 @@ export const Projects = () => {
                       </span>
                     ))}
                   </div>
-                  <div className="flex gap-4">
-                    {project.links.github && (
+                  <div className="flex gap-6 mt-auto justify-center">
+                    {project.id === 'meiphor' && project.links.store && (
+                      <motion.a
+                        href="https://play.google.com/store/apps/details?id=com.METAPREP.Meiphor&hl=en_IN"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="flex items-center gap-2 px-4 py-2 bg-neon-green text-background rounded-lg hover:bg-neon-green/90 transition-all duration-300 font-medium"
+                      >
+                        <img src="https://i.postimg.cc/MpvbWN7z/play-store.png" alt="Play Store" className="h-4 w-4" />
+                        <span className="text-sm">Play Store</span>
+                      </motion.a>
+                    )}
+                    {project.id === 'meiphor' && (
+                      <motion.a
+                        href="https://apps.apple.com/in/app/meiphor/id6503905399"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="flex items-center gap-2 px-4 py-2 bg-neon-green text-background rounded-lg hover:bg-neon-green/90 transition-all duration-300 font-medium"
+                      >
+                        <img src="https://i.postimg.cc/0N39TM8b/app-store.png" alt="App Store" className="h-4 w-4" />
+                        <span className="text-sm">App Store</span>
+                      </motion.a>
+                    )}
+                    {project.id !== 'meiphor' && project.links.github && (
                       <motion.a
                         href={project.links.github}
+                        onClick={(e) => e.stopPropagation()}
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
                         className="flex items-center gap-2 px-4 py-2 bg-transparent border border-neon-green/50 text-neon-green rounded-lg hover:bg-neon-green/10 transition-all duration-300"
@@ -152,6 +193,7 @@ export const Projects = () => {
                     {project.links.live && (
                       <motion.a
                         href={project.links.live}
+                        onClick={(e) => e.stopPropagation()}
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
                         className="flex items-center gap-2 px-4 py-2 bg-neon-green text-background rounded-lg hover:bg-neon-green/90 transition-all duration-300 font-medium"
@@ -160,9 +202,10 @@ export const Projects = () => {
                         <span className="text-sm">Live</span>
                       </motion.a>
                     )}
-                    {project.links.store && (
+                    {project.id !== 'meiphor' && project.links.store && (
                       <motion.a
                         href={project.links.store}
+                        onClick={(e) => e.stopPropagation()}
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
                         className="flex items-center gap-2 px-4 py-2 bg-transparent border border-neon-green/50 text-neon-green rounded-lg hover:bg-neon-green/10 transition-all duration-300"
@@ -191,20 +234,32 @@ export const Projects = () => {
             >
               <div className="bg-card rounded-xl p-8 border border-neon-green/20 hover:border-neon-green/50 transition-all duration-500 h-full backdrop-blur-sm">
                 <div className="absolute inset-0 rounded-xl bg-neon-green/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
-                <div className="relative z-10">
-                  <motion.div
-                    whileHover={{ scale: 1.1, rotate: 5 }}
-                    className="text-6xl mb-6 text-center group-hover:drop-shadow-[0_0_20px_rgba(57,255,20,0.7)] transition-all duration-300"
-                  >
-                    {project.image}
-                  </motion.div>
-                  <h3 className="text-2xl font-bold mb-4 text-foreground group-hover:text-neon-green transition-colors duration-300">
+                <div className="relative z-10 flex flex-col h-full">
+                  <div className="relative h-[88px]">
+                    <motion.div
+                      initial={project.id === 'meiphor' ? { y: -21 } : undefined}
+                      animate={project.id === 'meiphor' ? { y: -21 } : undefined}
+                      whileHover={project.id === 'meiphor' ? { scale: 1.1, rotate: 5, y: -25 } : { scale: 1.1, rotate: 5 }}
+                      className={`absolute inset-x-0 top-0 flex justify-center group-hover:drop-shadow-[0_0_20px_rgba(57,255,20,0.7)] transition-all duration-300 ${project.id === 'meiphor' ? 'origin-top' : ''}`}
+                    >
+                      {project.image.startsWith('http') ? (
+                        <img
+                          src={project.image}
+                          alt={`${project.title} logo`}
+                          className={`${project.id === 'meiphor' ? 'h-[104px] w-[104px]' : 'h-16 w-16'} object-contain`}
+                        />
+                      ) : (
+                        <span className={`${project.id === 'meiphor' ? 'text-9xl' : 'text-6xl'} leading-none`}>{project.image}</span>
+                      )}
+                    </motion.div>
+                  </div>
+                  <h3 className="text-[28px] font-bold mb-4 text-foreground group-hover:text-neon-green transition-colors duration-300 -mt-2 text-center">
                     {project.title}
                   </h3>
-                  <p className="text-muted-foreground mb-6 line-clamp-3">
+                  <p className="text-muted-foreground mb-6 line-clamp-3 text-justify -mt-3">
                     {project.description}
                   </p>
-                  <div className="flex flex-wrap gap-2 mb-6">
+                  <div className="flex flex-wrap items-center justify-center gap-2 mb-6">
                     {project.technologies.map((tech) => (
                       <span
                         key={tech}
@@ -214,10 +269,37 @@ export const Projects = () => {
                       </span>
                     ))}
                   </div>
-                  <div className="flex gap-4">
-                    {project.links.github && (
+                  <div className="flex gap-6 mt-auto justify-center">
+                    {project.id === 'meiphor' && project.links.store && (
+                      <motion.a
+                        href={project.links.store}
+                        onClick={(e) => e.stopPropagation()}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="flex items-center gap-2 px-4 py-2 bg-neon-green text-background rounded-lg hover:bg-neon-green/90 transition-all duration-300 font-medium"
+                      >
+                        <img src="https://i.postimg.cc/MpvbWN7z/play-store.png" alt="Play Store" className="h-4 w-4" />
+                        <span className="text-sm">Play Store</span>
+                      </motion.a>
+                    )}
+                    {project.id === 'meiphor' && (
+                      <motion.a
+                        href="https://apps.apple.com/in/app/meiphor/id6503905399"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="flex items-center gap-2 px-4 py-2 bg-neon-green text-background rounded-lg hover:bg-neon-green/90 transition-all duration-300 font-medium"
+                      >
+                        <img src="https://i.postimg.cc/0N39TM8b/app-store.png" alt="App Store" className="h-4 w-4" />
+                        <span className="text-sm">App Store</span>
+                      </motion.a>
+                    )}
+                    {project.id !== 'meiphor' && project.links.github && (
                       <motion.a
                         href={project.links.github}
+                        onClick={(e) => e.stopPropagation()}
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
                         className="flex items-center gap-2 px-4 py-2 bg-transparent border border-neon-green/50 text-neon-green rounded-lg hover:bg-neon-green/10 transition-all duration-300"
@@ -229,6 +311,7 @@ export const Projects = () => {
                     {project.links.live && (
                       <motion.a
                         href={project.links.live}
+                        onClick={(e) => e.stopPropagation()}
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
                         className="flex items-center gap-2 px-4 py-2 bg-neon-green text-background rounded-lg hover:bg-neon-green/90 transition-all duration-300 font-medium"
@@ -237,9 +320,10 @@ export const Projects = () => {
                         <span className="text-sm">Live</span>
                       </motion.a>
                     )}
-                    {project.links.store && (
+                    {project.id !== 'meiphor' && project.links.store && (
                       <motion.a
                         href={project.links.store}
+                        onClick={(e) => e.stopPropagation()}
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
                         className="flex items-center gap-2 px-4 py-2 bg-transparent border border-neon-green/50 text-neon-green rounded-lg hover:bg-neon-green/10 transition-all duration-300"
@@ -270,19 +354,31 @@ export const Projects = () => {
                 <div className="bg-card rounded-xl p-8 border border-neon-green/20 hover:border-neon-green/50 transition-all duration-500 h-full backdrop-blur-sm">
                   <div className="absolute inset-0 rounded-xl bg-neon-green/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
                   <div className="relative z-10">
-                    <motion.div
-                      whileHover={{ scale: 1.1, rotate: 5 }}
-                      className="text-6xl mb-6 text-center group-hover:drop-shadow-[0_0_20px_rgba(57,255,20,0.7)] transition-all duration-300"
-                    >
-                      {project.image}
-                    </motion.div>
-                    <h3 className="text-2xl font-bold mb-4 text-foreground group-hover:text-neon-green transition-colors duration-300">
+                    <div className="relative h-[88px]">
+                      <motion.div
+                        initial={project.id === 'meiphor' ? { y: -21 } : undefined}
+                        animate={project.id === 'meiphor' ? { y: -21 } : undefined}
+                        whileHover={project.id === 'meiphor' ? { scale: 1.1, rotate: 5, y: -25 } : { scale: 1.1, rotate: 5 }}
+                        className={`absolute inset-x-0 top-0 flex justify-center group-hover:drop-shadow-[0_0_20px_rgba(57,255,20,0.7)] transition-all duration-300 ${project.id === 'meiphor' ? 'origin-top' : ''}`}
+                      >
+                        {project.image.startsWith('http') ? (
+                          <img
+                            src={project.image}
+                            alt={`${project.title} logo`}
+                            className={`${project.id === 'meiphor' ? 'h-[104px] w-[104px]' : 'h-16 w-16'} object-contain`}
+                          />
+                        ) : (
+                          <span className={`${project.id === 'meiphor' ? 'text-9xl' : 'text-6xl'} leading-none`}>{project.image}</span>
+                        )}
+                      </motion.div>
+                    </div>
+                    <h3 className="text-[28px] font-bold mb-4 text-foreground group-hover:text-neon-green transition-colors duration-300 -mt-2 text-center">
                       {project.title}
                     </h3>
-                    <p className="text-muted-foreground mb-6 line-clamp-3">
+                    <p className="text-muted-foreground mb-6 line-clamp-3 text-justify -mt-3">
                       {project.description}
                     </p>
-                    <div className="flex flex-wrap gap-2 mb-6">
+                    <div className="flex flex-wrap items-center justify-center gap-2 mb-6">
                       {project.technologies.map((tech) => (
                         <span
                           key={tech}
@@ -292,8 +388,36 @@ export const Projects = () => {
                         </span>
                       ))}
                     </div>
-                    <div className="flex gap-4">
-                      {project.links.github && (
+                    <div className="flex gap-6 mt-auto justify-center">
+                      {project.id === 'meiphor' && project.links.store && (
+                        <motion.a
+                          href="https://play.google.com/store/apps/details?id=com.METAPREP.Meiphor&hl=en_IN"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="flex items-center gap-2 px-4 py-2 bg-neon-green text-background rounded-lg hover:bg-neon-green/90 transition-all duration-300 font-medium"
+                        >
+                          <img src="https://i.postimg.cc/MpvbWN7z/play-store.png" alt="Play Store" className="h-4 w-4" />
+                          <span className="text-sm">Play Store</span>
+                        </motion.a>
+                      )}
+                      {project.id === 'meiphor' && (
+                        <motion.a
+                          href="https://apps.apple.com/in/app/meiphor/id6503905399"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="flex items-center gap-2 px-4 py-2 bg-neon-green text-background rounded-lg hover:bg-neon-green/90 transition-all duration-300 font-medium"
+                        >
+                          <img src="https://i.postimg.cc/0N39TM8b/app-store.png" alt="App Store" className="h-4 w-4" />
+                          <span className="text-sm">App Store</span>
+                        </motion.a>
+                      )}
+                      {project.id !== 'meiphor' && project.links.github && (
                         <motion.a
                           href={project.links.github}
                           whileHover={{ scale: 1.1 }}
@@ -315,7 +439,7 @@ export const Projects = () => {
                           <span className="text-sm">Live</span>
                         </motion.a>
                       )}
-                      {project.links.store && (
+                      {project.id !== 'meiphor' && project.links.store && (
                         <motion.a
                           href={project.links.store}
                           whileHover={{ scale: 1.1 }}
