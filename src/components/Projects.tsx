@@ -113,6 +113,11 @@ export const Projects = () => {
               onClick={() => handleProjectClick(project.id)}
             >
               <div className="bg-card rounded-xl p-8 border border-neon-green/20 hover:border-neon-green/50 transition-all duration-500 h-full backdrop-blur-sm">
+                {(project.id === 'meiphor' || project.id === 'space-reality') && (
+                  <span className="absolute top-3 right-3 z-20 px-3 py-1.5 text-xs leading-none font-bold bg-emerald-600 text-white rounded-md shadow">
+                    Published
+                  </span>
+                )}
                 <div className="absolute inset-0 rounded-xl bg-neon-green/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
                 <div className="relative z-10 flex flex-col h-full">
                   <div className="relative h-[88px]">
@@ -150,9 +155,13 @@ export const Projects = () => {
                     ))}
                   </div>
                   <div className="flex gap-6 mt-auto justify-center">
-                    {project.id === 'meiphor' && project.links.store && (
+                    {(project.id === 'meiphor' || project.id === 'space-reality') && (
                       <motion.a
-                        href="https://play.google.com/store/apps/details?id=com.METAPREP.Meiphor&hl=en_IN"
+                        href={
+                          project.id === 'meiphor'
+                            ? "https://play.google.com/store/apps/details?id=com.METAPREP.Meiphor&hl=en_IN"
+                            : "https://play.google.com/store/apps/details?id=com.Space_Zone.SpaceReality_SpaceZoneIndia&hl=en_IN"
+                        }
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
@@ -164,9 +173,13 @@ export const Projects = () => {
                         <span className="text-sm">Play Store</span>
                       </motion.a>
                     )}
-                    {project.id === 'meiphor' && (
+                    {(project.id === 'meiphor' || project.id === 'space-reality') && (
                       <motion.a
-                        href="https://apps.apple.com/in/app/meiphor/id6503905399"
+                        href={
+                          project.id === 'meiphor'
+                            ? "https://apps.apple.com/in/app/meiphor/id6503905399"
+                            : "https://apps.apple.com/mr/app/spacereality/id6466695147"
+                        }
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
@@ -178,7 +191,7 @@ export const Projects = () => {
                         <span className="text-sm">App Store</span>
                       </motion.a>
                     )}
-                    {project.id !== 'meiphor' && project.links.github && (
+                    {project.id !== 'meiphor' && project.id !== 'space-reality' && project.links.github && (
                       <motion.a
                         href={project.links.github}
                         onClick={(e) => e.stopPropagation()}
@@ -190,7 +203,7 @@ export const Projects = () => {
                         <span className="text-sm">Code</span>
                       </motion.a>
                     )}
-                    {project.links.live && (
+                    {project.id !== 'space-reality' && project.links.live && (
                       <motion.a
                         href={project.links.live}
                         onClick={(e) => e.stopPropagation()}
@@ -233,6 +246,11 @@ export const Projects = () => {
               onClick={() => handleProjectClick(project.id)}
             >
               <div className="bg-card rounded-xl p-8 border border-neon-green/20 hover:border-neon-green/50 transition-all duration-500 h-full backdrop-blur-sm">
+                {(project.id === 'meiphor' || project.id === 'space-reality') && (
+                  <span className="absolute top-3 right-3 z-20 px-3 py-1.5 text-xs leading-none font-bold bg-emerald-600 text-white rounded-md shadow">
+                    Published
+                  </span>
+                )}
                 <div className="absolute inset-0 rounded-xl bg-neon-green/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
                 <div className="relative z-10 flex flex-col h-full">
                   <div className="relative h-[88px]">
@@ -270,9 +288,13 @@ export const Projects = () => {
                     ))}
                   </div>
                   <div className="flex gap-6 mt-auto justify-center">
-                    {project.id === 'meiphor' && project.links.store && (
+                    {(project.id === 'meiphor' || project.id === 'space-reality') && (
                       <motion.a
-                        href={project.links.store}
+                        href={
+                          project.id === 'meiphor'
+                            ? "https://play.google.com/store/apps/details?id=com.METAPREP.Meiphor&hl=en_IN"
+                            : "https://play.google.com/store/apps/details?id=com.Space_Zone.SpaceReality_SpaceZoneIndia&hl=en_IN"
+                        }
                         onClick={(e) => e.stopPropagation()}
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
@@ -282,9 +304,13 @@ export const Projects = () => {
                         <span className="text-sm">Play Store</span>
                       </motion.a>
                     )}
-                    {project.id === 'meiphor' && (
+                    {(project.id === 'meiphor' || project.id === 'space-reality') && (
                       <motion.a
-                        href="https://apps.apple.com/in/app/meiphor/id6503905399"
+                        href={
+                          project.id === 'meiphor'
+                            ? "https://apps.apple.com/in/app/meiphor/id6503905399"
+                            : "https://apps.apple.com/mr/app/spacereality/id6466695147"
+                        }
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
@@ -296,7 +322,7 @@ export const Projects = () => {
                         <span className="text-sm">App Store</span>
                       </motion.a>
                     )}
-                    {project.id !== 'meiphor' && project.links.github && (
+                    {project.id !== 'meiphor' && project.id !== 'space-reality' && project.links.github && (
                       <motion.a
                         href={project.links.github}
                         onClick={(e) => e.stopPropagation()}
@@ -308,7 +334,7 @@ export const Projects = () => {
                         <span className="text-sm">Code</span>
                       </motion.a>
                     )}
-                    {project.links.live && (
+                    {project.id !== 'space-reality' && project.links.live && (
                       <motion.a
                         href={project.links.live}
                         onClick={(e) => e.stopPropagation()}
@@ -351,7 +377,12 @@ export const Projects = () => {
                 className="group relative cursor-pointer project-card"
                 onClick={() => handleProjectClick(project.id)}
               >
-                <div className="bg-card rounded-xl p-8 border border-neon-green/20 hover:border-neon-green/50 transition-all duration-500 h-full backdrop-blur-sm">
+              <div className="bg-card rounded-xl p-8 border border-neon-green/20 hover:border-neon-green/50 transition-all duration-500 h-full backdrop-blur-sm">
+                {(project.id === 'meiphor' || project.id === 'space-reality') && (
+                  <span className="absolute top-3 right-3 z-20 px-3 py-1.5 text-xs leading-none font-bold bg-emerald-600 text-white rounded-md shadow">
+                    Published
+                  </span>
+                )}
                   <div className="absolute inset-0 rounded-xl bg-neon-green/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
                   <div className="relative z-10">
                     <div className="relative h-[88px]">

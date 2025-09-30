@@ -58,6 +58,30 @@ const projectsData: Record<string, ProjectData> = {
       }
     ]
   },
+  'space-reality': {
+    id: 'space-reality',
+    title: 'Space Reality',
+    tagline: 'AR learning app exploring rockets, satellites, orbits and more',
+    technologies: ['Unity', 'C#', 'Addressable', 'Version Control', 'Performance Optimization'],
+    links: {
+      github: '#',
+      live: '#',
+      playStore: 'https://play.google.com/store/apps/details?id=com.Space_Zone.SpaceReality_SpaceZoneIndia&hl=en_IN',
+      appStore: 'https://apps.apple.com/mr/app/spacereality/id6466695147'
+    },
+    sections: [
+      {
+        heading: 'Augmented Reality Space Exploration',
+        video: '/videos/video1.mp4',
+        points: [
+          'Interactive AR models of rockets, satellites, and planetary systems',
+          'Educational content designed for students and enthusiasts',
+          'Optimized performance across a wide range of Android and iOS devices',
+          'Seamless content updates using Addressables',
+        ]
+      }
+    ]
+  },
   'ar-commerce': {
     id: 'ar-commerce',
     title: 'AR Commerce Platform',
