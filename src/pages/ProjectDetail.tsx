@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Github, ExternalLink, Smartphone } from 'lucide-react';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { ParticleBackground } from '@/components/ParticleBackground';
 
 interface ProjectData {
@@ -38,22 +38,54 @@ const projectsData: Record<string, ProjectData> = {
     sections: [
       {
         heading: 'WebView OTP Verification',
-        video: '/videos/video1.mp4',
+        video: 'https://www.youtube.com/embed/AzLoUYCWog4',
         points: [
-          'Seamless integration of WebView for OTP verification process',
-          'Real-time communication between Unity and web components',
-          'Enhanced security with multi-factor authentication',
-          'Optimized performance for mobile platforms'
+          'Developed OTP login system inside Unity using WebView + Firebase Authentication',
+          'Implemented auto-login session check (skips login if already authenticated)',
+          'Built a secure message bridge between Unity & WebView using postMessage',
+          'Optimized rendering performance to avoid input lag during keyboard events',
+          'Ensured smooth scene reload after successful login verification'
         ]
       },
       {
-        heading: 'AR Object Placement',
-        video: '/videos/video2.mp4',
+        heading: 'QR Authentication',
+        video: 'https://www.youtube.com/embed/cA6uWEXnTxU',
         points: [
-          'Advanced plane detection and tracking algorithms',
-          'Real-time lighting estimation for realistic rendering',
-          'Gesture-based object manipulation and scaling',
-          'Cross-platform compatibility for iOS and Android'
+          'Implemented QR code scanning feature for instant book activation',
+          'Developed dual input system - manual serial key entry and automated QR scanning with auto-fill',
+          'Built secure validation that prevents activation with already-used serial keys or invalid codes',
+          'Integrated real-time dashboard synchronization to reflect activated content immediately',
+          'Optimized camera permission handling and QR detection for seamless user experience'
+        ]
+      },
+      {
+        heading: 'Architecture Overview',
+        video: '/videos/meiphor-architecture.mp4',
+        points: [
+          'Modular Unity project structure with feature-based assemblies',
+          'Addressables for remote content delivery and versioning',
+          'MVVM-style UI flows, decoupled services, and event-driven messaging',
+          'Native plugins isolated behind clean interfaces for testability'
+        ]
+      },
+      {
+        heading: 'Performance Optimization',
+        video: '/videos/meiphor-performance.mp4',
+        points: [
+          'GPU/CPU profiling to remove bottlenecks and GC spikes',
+          'Texture atlasing, mesh batching, and draw-call reduction',
+          'Adaptive quality settings based on device capabilities',
+          'Asynchronous loading pipelines to keep UI responsive'
+        ]
+      },
+      {
+        heading: 'Challenges and Solutions',
+        video: '/videos/meiphor-challenges.mp4',
+        points: [
+          'WebView state sync conflicts solved using a robust message protocol',
+          'AR session resets handled with graceful recovery UX',
+          'Network variability mitigated via caching and retry/backoff',
+          'Memory footprint reduced with on-demand asset streaming'
         ]
       }
     ]
@@ -154,15 +186,48 @@ export const ProjectDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState<string>('');
+  const [isSticky, setIsSticky] = useState<boolean>(false);
+  const [navHeight, setNavHeight] = useState<number>(0);
+  const navRef = useRef<HTMLDivElement | null>(null);
+  const navTopRef = useRef<number>(0);
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
+  const videoRefs = useRef<HTMLIFrameElement[]>([]);
+  const STICKY_HEIGHT = 56; // compact height when sticky (px)
+  const GAP_BELOW = 64; // extra space between nav links and first section (px)
+  
   
   const project = slug ? projectsData[slug] : null;
 
-  // Smooth scroll to section function
+  // Prevent scroll handler jitter during programmatic smooth scrolls
+  const isAutoScrolling = useRef(false);
+  const scrollRafId = useRef<number | null>(null);
+  const sectionOffsetsRef = useRef<number[]>([]);
+  const lastScrollY = useRef(0);
+  const scrollDirection = useRef<'up' | 'down' | null>(null);
+  const activeUpdateTimeout = useRef<NodeJS.Timeout | null>(null);
+
+  // Smooth scroll using native scrollMarginTop for precision
   const scrollToSection = useCallback((sectionId: string) => {
+    console.log(`scrollToSection called with: ${sectionId}`);
     const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    if (!element) {
+      console.log(`Element not found: ${sectionId}`);
+      return;
     }
+    const constantOffset = STICKY_HEIGHT + GAP_BELOW;
+    const targetTop = element.getBoundingClientRect().top + window.scrollY - constantOffset;
+    console.log(`Scrolling to: ${targetTop}, constantOffset: ${constantOffset}`);
+    isAutoScrolling.current = true;
+    window.scrollTo({ top: Math.max(0, targetTop), behavior: 'smooth' });
+    
+    // Immediately set active section to prevent highlighting delay
+    setActiveSection(sectionId);
+    
+    // Reset guard after scroll settles
+    window.setTimeout(() => {
+      isAutoScrolling.current = false;
+      console.log('Auto scrolling guard reset');
+    }, 600);
   }, []);
 
   // Scroll to top when component mounts or slug changes
@@ -170,26 +235,81 @@ export const ProjectDetail = () => {
     window.scrollTo(0, 0);
   }, [slug]);
 
-  // Track active section
+  // Track active section & sticky nav
   useEffect(() => {
     const handleScroll = () => {
       if (!project) return;
       
-      const sections = project.sections.map((_, index) => `section-${index}`);
-      const current = sections.find(section => {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          return rect.top <= 150 && rect.bottom >= 150;
+      // Handle sticky nav
+      if (project.id === 'meiphor' && navRef.current) {
+        const scrollY = window.scrollY || window.pageYOffset;
+        const navTopViewport = navRef.current.getBoundingClientRect().top;
+        
+        if (!isSticky) {
+          if (navTopViewport <= 0) {
+            setIsSticky(true);
+          }
+        } else {
+          if (scrollY < navTopRef.current) {
+            setIsSticky(false);
+          }
         }
-        return false;
+      }
+      
+      // Pause videos when scrolling
+      videoRefs.current.forEach((videoRef) => {
+        if (videoRef) {
+          const rect = videoRef.getBoundingClientRect();
+          const isInViewport = rect.top < window.innerHeight && rect.bottom > 0;
+          
+          if (!isInViewport) {
+            // Pause video when it's not in viewport
+            try {
+              videoRef.contentWindow?.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+            } catch (e) {
+              // Silently handle cross-origin issues
+            }
+          }
+        }
       });
-      if (current) setActiveSection(current);
+      
+      // Active section detection - only when nav is sticky
+      if (isSticky) {
+        const sections = project.sections.map((_, index) => `section-${index}`);
+        const current = sections.find(section => {
+          const element = document.getElementById(section);
+          if (element) {
+            const rect = element.getBoundingClientRect();
+            // Same logic as main home page: element should be in viewport center area
+            return rect.top <= 150 && rect.bottom >= 150;
+          }
+          return false;
+        });
+        if (current) setActiveSection(current);
+      } else {
+        // Clear all highlights when nav is not sticky
+        setActiveSection('');
+      }
     };
 
+    const measure = () => {
+      if (project?.id === 'meiphor' && navRef.current) {
+        const rect = navRef.current.getBoundingClientRect();
+        navTopRef.current = rect.top + window.scrollY;
+        setNavHeight(navRef.current.offsetHeight || rect.height);
+      }
+    };
+
+    measure();
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [project]);
+    window.addEventListener('resize', measure);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', measure);
+    };
+  }, [project, isSticky]);
+
+  
 
   if (!project) {
     return (
@@ -214,15 +334,19 @@ export const ProjectDetail = () => {
       
       <main className="pt-4 relative z-10">
         {/* Sticky Back Button */}
-        <motion.button
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          onClick={() => navigate('/')}
-          className="fixed top-6 left-6 z-50 flex items-center gap-2 bg-black/80 backdrop-blur-sm border border-neon-green/30 rounded-lg px-4 py-2 text-neon-green hover:text-neon-green/80 hover:bg-black/90 hover:border-neon-green/50 transition-all duration-200 ease-in-out shadow-lg"
-        >
-          <ArrowLeft size={20} />
-          Back to Projects
-        </motion.button>
+               <motion.button
+                 initial={{ opacity: 0, x: -50 }}
+                 animate={{ opacity: 1, x: 0 }}
+                 onClick={() => {
+                   // Navigate back to home page using browser history
+                   navigate(-1);
+                 }}
+                 title="Return to main page"
+                 className="fixed top-6 left-6 z-50 flex items-center gap-2 bg-gradient-to-r from-black/90 to-neon-green/20 backdrop-blur-sm border border-neon-green/50 rounded-lg px-4 py-2 text-neon-green hover:text-neon-green/80 hover:bg-gradient-to-r hover:from-neon-green/20 hover:to-black/90 hover:border-neon-green hover:shadow-[0_0_15px_rgba(0,255,0,0.3)] transition-all duration-200 ease-in-out shadow-lg"
+               >
+                 <ArrowLeft size={20} />
+                 Back
+               </motion.button>
 
         {/* Project Title and Info */}
         <div className="container mx-auto px-1 py-2 relative z-10">
@@ -237,7 +361,7 @@ export const ProjectDetail = () => {
               <div className="flex flex-col items-center mb-6">
                 <motion.div
                   className="text-6xl text-center flex items-center justify-center min-h-[240px]"
-                  style={{marginBottom: '8px !important'}}
+                  style={{ marginBottom: 8 }}
                 >
                   <img 
                     key="meiphor-logo-detail"
@@ -358,90 +482,123 @@ export const ProjectDetail = () => {
         {/* Navigation Sections - Only for Meiphor */}
         {project.id === 'meiphor' && project.sections.length > 0 && (
           <>
+            {/* Heading stays in normal flow */}
             <motion.div
               id="explore-features-nav"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="relative z-10 py-4"
+              className="relative z-10 py-2"
             >
-            <div className="container mx-auto px-6">
-              <h3 className="text-lg font-semibold text-center mb-4 text-foreground">
-                Explore Features
-              </h3>
-              <div className="flex flex-wrap justify-center gap-3">
-                {project.sections.map((section, index) => (
-                  <motion.button
-                    key={index}
-                    onClick={() => scrollToSection(`section-${index}`)}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className={`px-4 py-2 text-sm font-medium rounded-full transition-all duration-300 ${
-                      activeSection === `section-${index}`
-                        ? 'bg-neon-green text-background'
-                        : 'bg-neon-green/10 text-neon-green border border-neon-green/30 hover:bg-neon-green/20'
-                    }`}
-                  >
-                    {section.heading}
-                  </motion.button>
-                ))}
+              <div className="container mx-auto px-6">
+                <h3 className="text-lg font-semibold text-center mb-2 text-foreground">
+                  Explore Features
+                </h3>
+              </div>
+            </motion.div>
+
+            {/* Sentinel sits right above the pill links; sticky triggers when links hit top */}
+            <div ref={sentinelRef}></div>
+
+            {/* Links bar that becomes sticky (JS-controlled fixed for reliability) */}
+            <div
+              ref={navRef}
+              className={`${isSticky ? 'fixed top-0 left-0 right-0 bg-black/70 backdrop-blur-sm border-b border-neon-green/20 shadow-[0_4px_16px_rgba(0,0,0,0.35)] z-40' : 'relative z-10 mb-3'} py-2`}
+              style={{ transition: 'background-color 200ms ease, box-shadow 200ms ease, backdrop-filter 200ms ease' }}
+            >
+              <div className="container mx-auto px-6">
+                <div className="flex flex-wrap justify-center gap-3">
+                  {project.sections.map((section, index) => (
+                    <motion.button
+                      key={index}
+                      onClick={() => {
+                        console.log(`Clicked section ${index}: ${section.heading}`);
+                        scrollToSection(`section-${index}`);
+                      }}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className={`px-4 py-2 text-sm font-medium rounded-full transition-all duration-300 ${
+                        activeSection === `section-${index}`
+                          ? 'bg-neon-green text-background'
+                          : 'bg-neon-green/10 text-neon-green border border-neon-green/30 hover:bg-neon-green/20'
+                      }`}
+                    >
+                      {section.heading}
+                    </motion.button>
+                  ))}
+                </div>
               </div>
             </div>
-            </motion.div>
-            
-            {/* Placeholder element to maintain space when navigation becomes fixed */}
+
+            {/* Spacer to avoid layout shift + keep a small gap to first section */}
+            <div style={{ height: isSticky ? `${navHeight + GAP_BELOW}px` : `${GAP_BELOW}px` }}></div>
           </>
         )}
 
         {/* Project Sections */}
         <div className="container mx-auto px-1 relative z-10">
-          {project.sections.map((section, index) => (
-            <motion.div
-              key={index}
-              id={`section-${index}`}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: index * 0.2 }}
-              viewport={{ once: true }}
-              className="mb-20"
-            >
-              {/* Section Heading */}
-              <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 text-foreground">
-                {section.heading}
-              </h2>
+                 {project.sections.map((section, index) => (
+                   <div key={index}>
+                     {/* Section Divider Line - Only show between sections */}
+                     {index > 0 && (
+                       <div className="flex items-center justify-center my-12">
+                         <div className="h-px bg-gradient-to-r from-transparent via-neon-green/50 to-transparent w-full"></div>
+                       </div>
+                     )}
+                     
+                     <motion.div
+                       id={`section-${index}`}
+                       initial={{ opacity: 0, y: 0 }}
+                       whileInView={{ opacity: 1, y: 0 }}
+                       transition={{ duration: 0.3, delay: 0 }}
+                       viewport={{ once: true }}
+                       className="mb-20"
+                       style={{ scrollMarginTop: (navHeight || STICKY_HEIGHT) + GAP_BELOW }}
+                     >
+                       {/* Section Heading */}
+                       <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 text-foreground">
+                         {section.heading}
+                       </h2>
 
-              {/* Video */}
-              <div className="mb-8 rounded-xl overflow-hidden border border-neon-green/20">
-                <video
-                  src={section.video}
-                  controls
-                  poster="/placeholder.svg"
-                  className="w-full h-auto"
-                >
-                  Your browser does not support the video tag.
-                </video>
-              </div>
+                     {/* Video */}
+                     <div className="mb-8 rounded-xl overflow-hidden border border-neon-green/10 max-w-4xl mx-auto relative particle-bg">
+                       <div className="relative w-full" style={{ aspectRatio: '2400/1080' }}>
+                         <iframe
+                           ref={(el) => {
+                             if (el) {
+                               videoRefs.current[index] = el;
+                             }
+                           }}
+                           src={`${section.video}?rel=0&modestbranding=1&showinfo=0&controls=1&disablekb=0&fs=1&cc_load_policy=0&iv_load_policy=3&autohide=0&playsinline=1&loop=0&mute=0&autoplay=0&start=0&end=0&enablejsapi=1&origin=${window.location.origin}`}
+                           title={section.heading}
+                           className="absolute top-0 left-0 w-full h-full rounded-xl bg-black"
+                           frameBorder="0"
+                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                           allowFullScreen
+                           sandbox="allow-scripts allow-same-origin allow-presentation"
+                         ></iframe>
+                       </div>
+                     </div>
 
               {/* Description Points */}
-              <div className="max-w-full mx-auto px-2">
-                <ul className="space-y-4">
-                  {section.points.map((point, pointIndex) => (
-                    <motion.li
-                      key={pointIndex}
-                      initial={{ opacity: 0, x: -30 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.6, delay: pointIndex * 0.1 }}
-                      viewport={{ once: true }}
-                      className="flex items-start gap-3 text-muted-foreground text-justify"
-                    >
-                      <span className="w-2 h-2 bg-neon-green rounded-full mt-2 flex-shrink-0"></span>
-                      <span className="text-base text-justify font-medium leading-relaxed tracking-normal" style={{fontFamily: 'Tahoma, sans-serif', wordSpacing: '0.3em'}}>{point}</span>
-                    </motion.li>
-                  ))}
-                </ul>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ml-8 md:ml-16">
+                {section.points.map((point, pointIndex) => (
+                  <motion.div
+                    key={pointIndex}
+                    initial={{ opacity: 0, x: -30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6, delay: pointIndex * 0.1 }}
+                    viewport={{ once: true }}
+                    className="flex items-start gap-3 text-muted-foreground text-justify"
+                  >
+                    <span className="w-2 h-2 bg-neon-green rounded-full mt-2 flex-shrink-0"></span>
+                    <span className="text-base text-justify font-medium leading-relaxed tracking-normal" style={{fontFamily: 'Tahoma, sans-serif', wordSpacing: '0.3em'}}>{point}</span>
+                  </motion.div>
+                ))}
               </div>
-            </motion.div>
-          ))}
+                     </motion.div>
+                   </div>
+                 ))}
         </div>
 
         {/* Footer Spacer */}

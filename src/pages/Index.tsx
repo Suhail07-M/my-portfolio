@@ -7,7 +7,7 @@ import { Workshops } from '@/components/Workshops';
 import { Contact } from '@/components/Contact';
 
 const Index = () => (
-  <div className="min-h-screen bg-background overflow-x-hidden">
+    <div className="min-h-screen bg-background overflow-x-hidden">
     <Navigation />
     
     <main>

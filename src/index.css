@@ -804,3 +804,45 @@ html, body {
 		max-width: 85vw !important; /* ultrawide: avoid too-long line lengths */
 	}
 }
+
+/* Particle Background Animation for Video Containers */
+.particle-bg {
+  background: 
+    radial-gradient(circle at 20% 20%, hsl(var(--neon-green) / 0.4) 2px, transparent 2px),
+    radial-gradient(circle at 80% 40%, hsl(var(--neon-green) / 0.3) 1.5px, transparent 1.5px),
+    radial-gradient(circle at 40% 80%, hsl(var(--neon-green) / 0.35) 2px, transparent 2px),
+    radial-gradient(circle at 60% 10%, hsl(var(--neon-green) / 0.25) 1px, transparent 1px),
+    radial-gradient(circle at 10% 70%, hsl(var(--neon-green) / 0.3) 1.5px, transparent 1.5px);
+  background-size: 50px 50px, 70px 70px, 60px 60px, 40px 40px, 55px 55px;
+  animation: 
+    particle-float-1 20s linear infinite,
+    particle-float-2 25s linear infinite reverse,
+    particle-float-3 30s linear infinite,
+    particle-float-4 15s linear infinite reverse,
+    particle-float-5 35s linear infinite;
+}
+
+@keyframes particle-float-1 {
+  0% { background-position: 0 0, 0 0, 0 0, 0 0, 0 0; }
+  100% { background-position: 50px 50px, 0 0, 0 0, 0 0, 0 0; }
+}
+
+@keyframes particle-float-2 {
+  0% { background-position: 0 0, 0 0, 0 0, 0 0, 0 0; }
+  100% { background-position: 0 0, 70px 70px, 0 0, 0 0, 0 0; }
+}
+
+@keyframes particle-float-3 {
+  0% { background-position: 0 0, 0 0, 0 0, 0 0, 0 0; }
+  100% { background-position: 0 0, 0 0, 60px 60px, 0 0, 0 0; }
+}
+
+@keyframes particle-float-4 {
+  0% { background-position: 0 0, 0 0, 0 0, 0 0, 0 0; }
+  100% { background-position: 0 0, 0 0, 0 0, 40px 40px, 0 0; }
+}
+
+@keyframes particle-float-5 {
+  0% { background-position: 0 0, 0 0, 0 0, 0 0, 0 0; }
+  100% { background-position: 0 0, 0 0, 0 0, 0 0, 55px 55px; }
+}
