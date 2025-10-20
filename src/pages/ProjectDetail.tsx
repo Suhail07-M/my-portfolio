@@ -1,8 +1,142 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Github, ExternalLink, Smartphone } from 'lucide-react';
+import { ArrowLeft, Github, ExternalLink, Smartphone, ChevronRight } from 'lucide-react';
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { ParticleBackground } from '@/components/ParticleBackground';
+
+// UpcomingFlashCardsCarousel Component
+const UpcomingFlashCardsCarousel = ({ images }: { images: string[] }) => {
+  const validImages = Array.isArray(images) ? images.filter(Boolean) : [];
+  const length = validImages.length;
+
+  // Slot sizing and spacing
+  const SLOT_WIDTH = 380; // px (slightly smaller)
+  const SLOT_HEIGHT = 200; // px (slightly smaller)
+  const GAP_PX = 24; // px
+  const STEP = SLOT_WIDTH + GAP_PX; // slide step in px
+
+  // Triple list for seamless infinite sliding
+  const extended = length > 0 ? [...validImages, ...validImages, ...validImages] : [];
+  const base = length; // middle copy start index
+  const [index, setIndex] = useState(Math.max(0, base - 1)); // left visible; center is index + 1
+  const [useTransition, setUseTransition] = useState(true);
+  const trackRef = useRef<HTMLDivElement | null>(null);
+
+  const canNavigate = length >= 2;
+
+  const nextImage = () => {
+    if (!canNavigate) return;
+    setUseTransition(true);
+    setIndex((i) => i + 1);
+  };
+
+  const prevImage = () => {
+    if (!canNavigate) return;
+    setUseTransition(true);
+    setIndex((i) => i - 1);
+  };
+
+  // Snap back into the middle copy after transition to avoid reaching ends
+  useEffect(() => {
+    if (length === 0) return;
+    const handleEnd = () => {
+      setUseTransition(false);
+      setIndex((i) => {
+        if (i >= base + length) return i - length; // moved too far right
+        if (i < base - 1) return i + length; // moved too far left
+        return i;
+      });
+    };
+    const el = trackRef.current;
+    if (el) el.addEventListener('transitionend', handleEnd, { once: true });
+    const t = window.setTimeout(handleEnd, 750); // fallback in case transitionend doesn't fire
+    return () => window.clearTimeout(t);
+  }, [index, length, base]);
+
+  const translateX = -(index * STEP);
+
+  return (
+    <div className="relative w-full flex items-center justify-center">
+      {/* Viewport showing exactly 3 cards with extra space for text above */}
+      <div className="overflow-visible" style={{ width: `${SLOT_WIDTH * 3 + GAP_PX * 2}px`, paddingTop: '60px' }}>
+        {/* Track */}
+        <div
+          ref={trackRef}
+          className="flex items-end"
+          style={{
+            gap: `${GAP_PX}px`,
+            transform: `translateX(${translateX}px) translateY(-60px)`,
+            transition: useTransition ? 'transform 600ms ease-in-out' : 'none',
+          }}
+        >
+          {extended.map((src, i) => {
+            const isCenter = i === index + 1; // middle visible slot
+            const imageNumber = (i % length) + 1; // Get the actual image number (1-11)
+            return (
+              <div key={`img-${i}-${src}`} className="flex-shrink-0" style={{ width: `${SLOT_WIDTH}px`, height: `${SLOT_HEIGHT}px` }}>
+                <div
+                  className="relative w-full h-full"
+                  style={{
+                    transformOrigin: 'bottom center',
+                    transform: `scale(${isCenter ? 1.2 : 0.8})`,
+                    transition: useTransition ? 'transform 600ms ease-in-out' : 'none',
+                    zIndex: isCenter ? 10 : 5,
+                  }}
+                >
+                  <img
+                    src={src}
+                    alt={`Upcoming AR Flash Cards ${imageNumber}`}
+                    className={`object-cover rounded-[22px] border-[4px] ${isCenter ? 'border-neon-green/70 shadow-[0_8px_32px_rgba(57,255,20,0.2)]' : 'border-neon-green/50 shadow-[0_6px_24px_rgba(57,255,20,0.15)]'}`}
+                    style={{ width: '100%', height: '100%' }}
+                    draggable={false}
+                    loading="lazy"
+                  />
+                  {/* Text overlay that moves and scales with the image */}
+                  <div
+                    className="absolute -top-12 left-0 right-0 p-2"
+                    style={{
+                      transformOrigin: 'top center',
+                      transform: `scale(${isCenter ? 1.2 : 0.8})`,
+                      transition: useTransition ? 'transform 600ms ease-in-out' : 'none',
+                    }}
+                  >
+                    <p className={`font-medium text-center ${isCenter ? 'text-neon-green text-lg' : 'text-white text-base'}`} style={{ transition: useTransition ? 'font-size 600ms ease-in-out, color 600ms ease-in-out' : 'none' }}>
+                      Flash Card {imageNumber}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Controls Layer (absolute, independent) */}
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-between">
+        <div className="pointer-events-auto -ml-3">
+          <motion.button
+            onClick={prevImage}
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.96 }}
+            className="flex items-center justify-center h-10 w-10 md:h-12 md:w-12 rounded-full border-2 border-neon-green/50 bg-black/70 hover:bg-neon-green/10 hover:border-neon-green text-neon-green hover:text-neon-green transition-all duration-300 shadow-[0_4px_16px_rgba(57,255,20,0.2)] hover:shadow-[0_6px_24px_rgba(57,255,20,0.3)]"
+          >
+            <ChevronRight className="h-5 w-5 md:h-6 md:w-6 rotate-180" />
+          </motion.button>
+        </div>
+        <div className="pointer-events-auto -mr-3">
+          <motion.button
+            onClick={nextImage}
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.96 }}
+            className="flex items-center justify-center h-10 w-10 md:h-12 md:w-12 rounded-full border-2 border-neon-green/50 bg-black/70 hover:bg-neon-green/10 hover:border-neon-green text-neon-green hover:text-neon-green transition-all duration-300 shadow-[0_4px_16px_rgba(57,255,20,0.2)] hover:shadow-[0_6px_24px_rgba(57,255,20,0.3)]"
+          >
+            <ChevronRight className="h-5 w-5 md:h-6 md:w-6" />
+          </motion.button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 interface ProjectData {
   id: string;
@@ -18,7 +152,8 @@ interface ProjectData {
   };
   sections: {
     heading: string;
-    video: string;
+    video?: string;
+    images?: string[];
     points: string[];
   }[];
 }
@@ -59,33 +194,84 @@ const projectsData: Record<string, ProjectData> = {
         ]
       },
       {
-        heading: 'Architecture Overview',
-        video: '/videos/meiphor-architecture.mp4',
+        heading: 'AR Addressables',
+        video: 'https://www.youtube.com/embed/6xHxkLO5Hxo',
         points: [
-          'Modular Unity project structure with feature-based assemblies',
-          'Addressables for remote content delivery and versioning',
-          'MVVM-style UI flows, decoupled services, and event-driven messaging',
-          'Native plugins isolated behind clean interfaces for testability'
+          'Dynamic AR content loading using Unity Addressables',
+          'Efficient remote asset management for large AR apps',
+          'Optimized memory usage with on-demand downloads',
+          'Demonstration of real-time asset loading in the Meiphor app',
+          'Shows size variation before & after content downloads',
+          'Practical example of mobile-ready content streaming'
         ]
       },
       {
         heading: 'Performance Optimization',
-        video: '/videos/meiphor-performance.mp4',
+        video: 'https://www.youtube.com/embed/vdHgoGkBKK4',
         points: [
-          'GPU/CPU profiling to remove bottlenecks and GC spikes',
-          'Texture atlasing, mesh batching, and draw-call reduction',
-          'Adaptive quality settings based on device capabilities',
-          'Asynchronous loading pipelines to keep UI responsive'
+          'Reduced app size by 70% using smart asset management',
+          'Implemented dynamic content loading for faster downloads',
+          'Optimized textures and 3D models without compromising visual quality',
+          'Achieved smooth performance on both high-end and low-end devices',
+          'Eliminated lag and frame drops through efficient resource management',
+          'Strategic content grouping for quicker load times'
         ]
       },
       {
-        heading: 'Challenges and Solutions',
-        video: '/videos/meiphor-challenges.mp4',
+        heading: 'AR Interactive Book',
+        video: 'https://www.youtube.com/embed/Pkn-sTJVLP0',
         points: [
-          'WebView state sync conflicts solved using a robust message protocol',
-          'AR session resets handled with graceful recovery UX',
-          'Network variability mitigated via caching and retry/backoff',
-          'Memory footprint reduced with on-demand asset streaming'
+          'Brought storybooks to life with animated 3D characters and sound effects.',
+          'Interactive AR elements that respond to touch and movement.',
+          'Smooth tracking for multiple pages using image targets.',
+          'Lightweight scene loading for better performance on mobile.',
+          'Engaging learning experience through visual interaction.'
+        ]
+      },
+      {
+        heading: 'AR Flash Cards',
+        video: 'https://www.youtube.com/embed/QLo7qZKXs_c',
+        points: [
+          'Real-time AR visualization of human anatomy.',
+          'Dual-side flashcards showing both organ model and body placement.',
+          '"Our Universe" section with interactive AR experiences.',
+          'Smart flashcard combination — e.g., Earth & Moon interact dynamically.',
+          'Mini-game setup in Unity — lander, door & rover control system.',
+          'Smooth transitions and optimized performance for mobile devices'
+        ]
+      },
+      {
+        heading: 'Upcoming AR Flash Cards',
+        images: [
+          'https://i.postimg.cc/W1sfr9RR/1.jpg',
+          'https://i.postimg.cc/0NMGJmyS/2.jpg',
+          'https://i.postimg.cc/FzZ0QVT1/3.jpg',
+          'https://i.postimg.cc/Z50p13pB/4.jpg',
+          'https://i.postimg.cc/KjJ3WvYR/5.jpg',
+          'https://i.postimg.cc/8zFfyGg5/6.jpg',
+          'https://i.postimg.cc/pTBm9XzB/7.jpg',
+          'https://i.postimg.cc/TY1Kwxwn/8.jpg',
+          'https://i.postimg.cc/pTPTtb4Q/9.jpg',
+          'https://i.postimg.cc/tCsgbzvj/10.jpg',
+          'https://i.postimg.cc/gJcYTyLw/11.jpg'
+        ],
+        points: [
+          'Aquatic Animals',
+          'Insects',
+          'Community Office',
+          'Places of Worship',
+          'Traffic Rules',
+          'Birds',
+          'Farm Animals',
+          'Wild Animals',
+          'Parts of body',
+          'Parts of Plants',
+          'People Who Help Us',
+          'Countries Around the World',
+          'Landforms',
+          'Monuments',
+          'Reptiles',
+          'Etc.'
         ]
       }
     ]
@@ -329,6 +515,11 @@ export const ProjectDetail = () => {
 
   return (
     <div className="min-h-screen bg-black relative overflow-hidden">
+      {/* Local utility to hide scrollbars across browsers */}
+      <style>{`
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+      `}</style>
       {/* Interactive Particle Background */}
       <ParticleBackground />
       
@@ -360,19 +551,49 @@ export const ProjectDetail = () => {
             {project.id === 'meiphor' ? (
               <div className="flex flex-col items-center mb-6">
                 <motion.div
-                  className="text-6xl text-center flex items-center justify-center min-h-[240px]"
+                  className="text-6xl text-center flex items-center justify-center min-h-[240px] gap-6"
                   style={{ marginBottom: 8 }}
                 >
                   <img 
                     key="meiphor-logo-detail"
                     src="https://i.postimg.cc/ZqB3Smx4/logosm.png" 
                     alt="Meiphor Logo"
-                    className="w-60 h-60 mx-auto object-contain"
+                    className="w-48 h-48 object-contain"
                   />
+                  <h1 className="text-4xl font-bold text-foreground tracking-wider mt-4">
+                    <span className="text-6xl">M</span>EIPHOR
+                  </h1>
                 </motion.div>
                 <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-full mx-auto px-1 text-justify font-medium leading-relaxed tracking-normal" style={{fontFamily: 'Tahoma, sans-serif', wordSpacing: '0.3em'}}>
                   Led end-to-end development of Meiphor AR application from concept to deployment. Architected Unity-based systems, managed UI/3D modeling teams, and implemented various technical solutions for performance optimization and user experience enhancement. Delivered cross-platform AR application for Android and iOS mobile platforms.
                 </p>
+                
+                {/* Download Buttons */}
+                <div className="flex flex-wrap justify-center gap-8 mb-8">
+                  {project.links.playStore && (
+                    <motion.button
+                      onClick={() => window.open(project.links.playStore, '_blank')}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="flex items-center gap-2 px-6 py-3 bg-neon-green text-background rounded-lg hover:bg-neon-green/90 transition-all duration-300 font-medium"
+                    >
+                      <img src="https://i.postimg.cc/MpvbWN7z/play-store.png" alt="Play Store" className="h-6 w-6" />
+                      <span className="text-base">Play Store</span>
+                    </motion.button>
+                  )}
+
+                  {project.links.appStore && (
+                    <motion.button
+                      onClick={() => window.open(project.links.appStore, '_blank')}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="flex items-center gap-2 px-6 py-3 bg-neon-green text-background rounded-lg hover:bg-neon-green/90 transition-all duration-300 font-medium"
+                    >
+                      <img src="https://i.postimg.cc/0N39TM8b/app-store.png" alt="App Store" className="h-6 w-6" />
+                      <span className="text-base">App Store</span>
+                    </motion.button>
+                  )}
+                </div>
               </div>
             ) : (
               <h1 className="text-5xl md:text-7xl font-bold mb-4 text-foreground">
@@ -389,8 +610,11 @@ export const ProjectDetail = () => {
             {/* Tech Stack */}
             {project.id === 'meiphor' ? (
               <div className="flex flex-col items-center gap-3 mb-8">
+                <h3 className="text-3xl font-semibold text-center mb-2 text-foreground">
+                  Tech Stack
+                </h3>
                 {/* First Line - 6 tags */}
-                <div className="flex flex-wrap justify-center gap-3">
+                <div className="flex flex-wrap justify-center gap-x-3 gap-y-3">
                   {['Unity', 'C#', 'Vuforia SDK', 'Addressable', 'WebView Integration', 'Cross-Platform Development'].map((tech) => (
                     <span
                       key={tech}
@@ -401,7 +625,7 @@ export const ProjectDetail = () => {
                   ))}
                 </div>
                 {/* Second Line - 3 tags */}
-                <div className="flex flex-wrap justify-center gap-3">
+                <div className="flex flex-wrap justify-center gap-x-3 gap-y-3">
                   {['QR Code Scanner', 'Performance Optimization', 'Version Control'].map((tech) => (
                     <span
                       key={tech}
@@ -439,41 +663,9 @@ export const ProjectDetail = () => {
                 </motion.a>
               )}
               
-              {project.links.playStore && (
-                <motion.button
-                  onClick={() => window.open(project.links.playStore, '_blank')}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="flex items-center gap-2 px-6 py-3 bg-transparent border border-neon-green/50 text-neon-green rounded-lg hover:bg-neon-green/10 transition-all duration-300"
-                >
-                  <img src="https://i.postimg.cc/MpvbWN7z/play-store.png" alt="Play Store" className="w-5 h-5" />
-                  Play Store
-                </motion.button>
-              )}
+              {/* Buttons moved to below description */}
 
-              {project.links.appStore && (
-                <motion.button
-                  onClick={() => window.open(project.links.appStore, '_blank')}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="flex items-center gap-2 px-6 py-3 bg-transparent border border-neon-green/50 text-neon-green rounded-lg hover:bg-neon-green/10 transition-all duration-300"
-                >
-                  <img src="https://i.postimg.cc/0N39TM8b/app-store.png" alt="App Store" className="w-5 h-5" />
-                  App Store
-                </motion.button>
-              )}
-
-              {project.links.github && (
-                <motion.a
-                  href={project.links.github}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="flex items-center gap-2 px-6 py-3 bg-transparent border border-neon-green/50 text-neon-green rounded-lg hover:bg-neon-green/10 transition-all duration-300"
-                >
-                  <Github size={20} />
-                  GitHub
-                </motion.a>
-              )}
+              {/* GitHub button removed */}
             </div>
 
           </motion.div>
@@ -488,10 +680,10 @@ export const ProjectDetail = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="relative z-10 py-2"
+              className="relative z-10 py-2 mt-6"
             >
               <div className="container mx-auto px-6">
-                <h3 className="text-lg font-semibold text-center mb-2 text-foreground">
+                <h3 className="text-3xl font-semibold text-center mb-2 text-foreground">
                   Explore Features
                 </h3>
               </div>
@@ -503,11 +695,11 @@ export const ProjectDetail = () => {
             {/* Links bar that becomes sticky (JS-controlled fixed for reliability) */}
             <div
               ref={navRef}
-              className={`${isSticky ? 'fixed top-0 left-0 right-0 bg-black/70 backdrop-blur-sm border-b border-neon-green/20 shadow-[0_4px_16px_rgba(0,0,0,0.35)] z-40' : 'relative z-10 mb-3'} py-2`}
-              style={{ transition: 'background-color 200ms ease, box-shadow 200ms ease, backdrop-filter 200ms ease' }}
+              className={`${isSticky ? 'fixed top-0 left-0 right-0 bg-black/70 backdrop-blur-sm border-b border-neon-green/20 shadow-[0_4px_16px_rgba(0,0,0,0.35)] z-40' : 'relative z-10 mb-3'} ${isSticky ? 'py-6' : 'py-2'}`}
+              style={{ transition: 'background-color 200ms ease, box-shadow 200ms ease, backdrop-filter 200ms ease, padding 300ms ease' }}
             >
               <div className="container mx-auto px-6">
-                <div className="flex flex-wrap justify-center gap-3">
+                <div className="flex flex-wrap justify-center gap-x-4 gap-y-3">
                   {project.sections.map((section, index) => (
                     <motion.button
                       key={index}
@@ -531,7 +723,7 @@ export const ProjectDetail = () => {
             </div>
 
             {/* Spacer to avoid layout shift + keep a small gap to first section */}
-            <div style={{ height: isSticky ? `${navHeight + GAP_BELOW}px` : `${GAP_BELOW}px` }}></div>
+            <div style={{ height: isSticky ? `${navHeight + 1}px` : `1px` }}></div>
           </>
         )}
 
@@ -539,12 +731,12 @@ export const ProjectDetail = () => {
         <div className="container mx-auto px-1 relative z-10">
                  {project.sections.map((section, index) => (
                    <div key={index}>
-                     {/* Section Divider Line - Only show between sections */}
-                     {index > 0 && (
-                       <div className="flex items-center justify-center my-12">
-                         <div className="h-px bg-gradient-to-r from-transparent via-neon-green/50 to-transparent w-full"></div>
-                       </div>
-                     )}
+                    {/* Section Divider Line - Show above every section including the first */}
+                    {(
+                      <div className="flex items-center justify-center my-12">
+                        <div className="h-px bg-gradient-to-r from-transparent via-neon-green/50 to-transparent w-full"></div>
+                      </div>
+                    )}
                      
                      <motion.div
                        id={`section-${index}`}
@@ -556,46 +748,106 @@ export const ProjectDetail = () => {
                        style={{ scrollMarginTop: (navHeight || STICKY_HEIGHT) + GAP_BELOW }}
                      >
                        {/* Section Heading */}
-                       <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 text-foreground">
+                       <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-foreground">
                          {section.heading}
                        </h2>
+                        {section.heading === 'Upcoming AR Flash Cards' && (
+                          <p className="text-base md:text-lg text-muted-foreground mb-32 max-w-3xl mx-auto text-center">
+                            We're continuously expanding our AR Flash Cards library with new educational categories — most of which are in the final stage of development and will be rolled out in upcoming updates.
+                          </p>
+                        )}
 
-                     {/* Video */}
-                     <div className="mb-8 rounded-xl overflow-hidden border border-neon-green/10 max-w-4xl mx-auto relative particle-bg">
-                       <div className="relative w-full" style={{ aspectRatio: '2400/1080' }}>
-                         <iframe
-                           ref={(el) => {
-                             if (el) {
-                               videoRefs.current[index] = el;
-                             }
-                           }}
-                           src={`${section.video}?rel=0&modestbranding=1&showinfo=0&controls=1&disablekb=0&fs=1&cc_load_policy=0&iv_load_policy=3&autohide=0&playsinline=1&loop=0&mute=0&autoplay=0&start=0&end=0&enablejsapi=1&origin=${window.location.origin}`}
-                           title={section.heading}
-                           className="absolute top-0 left-0 w-full h-full rounded-xl bg-black"
-                           frameBorder="0"
-                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                           allowFullScreen
-                           sandbox="allow-scripts allow-same-origin allow-presentation"
-                         ></iframe>
+                     {/* Conditional rendering for Video or Images */}
+                    {section.video ? (
+                      /* Video */
+                      <div className="mb-8 rounded-xl overflow-hidden border border-neon-green/10 max-w-[720px] mx-auto relative particle-bg">
+                        <div className="relative w-full" style={{ aspectRatio: '1280/720' }}>
+                           <iframe
+                             ref={(el) => {
+                               if (el) {
+                                 videoRefs.current[index] = el;
+                               }
+                             }}
+                             src={`${section.video}?rel=0&modestbranding=1&showinfo=0&controls=1&disablekb=0&fs=1&cc_load_policy=0&iv_load_policy=3&autohide=0&playsinline=1&loop=0&mute=0&autoplay=0&start=0&end=0&enablejsapi=1&origin=${window.location.origin}`}
+                             title={section.heading}
+                             className="absolute top-0 left-0 w-full h-full rounded-xl bg-black"
+                             frameBorder="0"
+                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                             allowFullScreen
+                             sandbox="allow-scripts allow-same-origin allow-presentation"
+                           ></iframe>
+                         </div>
                        </div>
-                     </div>
+                    ) : section.images ? (
+                      /* Image Carousel - Only for Upcoming AR Flash Cards */
+                      <div className="mb-8">
+                        {section.heading === 'Upcoming AR Flash Cards' ? (
+                          <UpcomingFlashCardsCarousel images={section.images} />
+                        ) : (
+                          /* Regular Image Gallery for other sections */
+                          <div className="flex items-center gap-6 py-2 overflow-x-auto no-scrollbar">
+                            {section.images.map((src, imgIndex) => (
+                              <motion.div
+                                key={src}
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.5, delay: imgIndex * 0.05 }}
+                                className="relative group flex-shrink-0"
+                              >
+                                <div className="relative">
+                                  <img
+                                    src={src}
+                                    alt={`${section.heading} ${imgIndex + 1}`}
+                                    className="h-44 md:h-48 lg:h-52 w-[280px] md:w-[320px] lg:w-[360px] object-cover rounded-[22px] md:rounded-[28px] border-[3px] md:border-[4px] border-neon-green/50 hover:border-neon-green/70 hover:scale-105 transition-all duration-500"
+                                    loading="lazy"
+                                    draggable={false}
+                                  />
+                                </div>
+                              </motion.div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ) : null}
 
               {/* Description Points */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ml-8 md:ml-16">
-                {section.points.map((point, pointIndex) => (
-                  <motion.div
-                    key={pointIndex}
-                    initial={{ opacity: 0, x: -30 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6, delay: pointIndex * 0.1 }}
-                    viewport={{ once: true }}
-                    className="flex items-start gap-3 text-muted-foreground text-justify"
-                  >
-                    <span className="w-2 h-2 bg-neon-green rounded-full mt-2 flex-shrink-0"></span>
-                    <span className="text-base text-justify font-medium leading-relaxed tracking-normal" style={{fontFamily: 'Tahoma, sans-serif', wordSpacing: '0.3em'}}>{point}</span>
-                  </motion.div>
-                ))}
-              </div>
+              {section.heading === 'Upcoming AR Flash Cards' ? (
+                <div className="mt-16">
+                  <h4 className="text-[1.6rem] md:text-[1.9rem] font-semibold text-center mb-4 text-foreground" style={{ wordSpacing: '0.15em' }}>New Flashcard Categories</h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-2 md:px-8">
+                    {section.points.map((point, pointIndex) => (
+                      <motion.div
+                        key={pointIndex}
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.5, delay: pointIndex * 0.05 }}
+                        viewport={{ once: true }}
+                        className="flex items-start gap-3 text-muted-foreground"
+                      >
+                        <span className="w-2 h-2 bg-neon-green rounded-full mt-2 flex-shrink-0"></span>
+                        <span className="text-base font-medium leading-relaxed tracking-normal" style={{fontFamily: 'Tahoma, sans-serif', wordSpacing: '0.3em'}}>{point}</span>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ml-8 md:ml-16">
+                  {section.points.map((point, pointIndex) => (
+                    <motion.div
+                      key={pointIndex}
+                      initial={{ opacity: 0, x: -30 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.6, delay: pointIndex * 0.1 }}
+                      viewport={{ once: true }}
+                      className="flex items-start gap-3 text-muted-foreground text-justify"
+                    >
+                      <span className="w-2 h-2 bg-neon-green rounded-full mt-2 flex-shrink-0"></span>
+                      <span className="text-base text-justify font-medium leading-relaxed tracking-normal" style={{fontFamily: 'Tahoma, sans-serif', wordSpacing: '0.3em'}}>{point}</span>
+                    </motion.div>
+                  ))}
+                </div>
+              )}
                      </motion.div>
                    </div>
                  ))}
