@@ -12,7 +12,7 @@ const UpcomingFlashCardsCarousel = ({ images }: { images: string[] }) => {
   // Slot sizing and spacing
   const SLOT_WIDTH = 380; // px (slightly smaller)
   const SLOT_HEIGHT = 200; // px (slightly smaller)
-  const GAP_PX = 24; // px
+  const GAP_PX = 72; // px (further increased gap)
   const STEP = SLOT_WIDTH + GAP_PX; // slide step in px
 
   // Triple list for seamless infinite sliding
@@ -20,20 +20,67 @@ const UpcomingFlashCardsCarousel = ({ images }: { images: string[] }) => {
   const base = length; // middle copy start index
   const [index, setIndex] = useState(Math.max(0, base - 1)); // left visible; center is index + 1
   const [useTransition, setUseTransition] = useState(true);
+  const [transitionSpeed, setTransitionSpeed] = useState(600); // Normal speed
   const trackRef = useRef<HTMLDivElement | null>(null);
+  const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const clickCountRef = useRef(0);
 
   const canNavigate = length >= 2;
 
   const nextImage = () => {
     if (!canNavigate) return;
+    
+    // Track rapid clicks
+    clickCountRef.current += 1;
+    
+    // Clear existing timeout
+    if (clickTimeoutRef.current) {
+      clearTimeout(clickTimeoutRef.current);
+    }
+    
+    // Set transition speed based on click frequency
+    if (clickCountRef.current >= 3) {
+      setTransitionSpeed(200); // Fast transition for rapid clicks
+    } else {
+      setTransitionSpeed(600); // Normal transition
+    }
+    
     setUseTransition(true);
     setIndex((i) => i + 1);
+    
+    // Reset click count after 500ms
+    clickTimeoutRef.current = setTimeout(() => {
+      clickCountRef.current = 0;
+      setTransitionSpeed(600); // Reset to normal speed
+    }, 500);
   };
 
   const prevImage = () => {
     if (!canNavigate) return;
+    
+    // Track rapid clicks
+    clickCountRef.current += 1;
+    
+    // Clear existing timeout
+    if (clickTimeoutRef.current) {
+      clearTimeout(clickTimeoutRef.current);
+    }
+    
+    // Set transition speed based on click frequency
+    if (clickCountRef.current >= 3) {
+      setTransitionSpeed(200); // Fast transition for rapid clicks
+    } else {
+      setTransitionSpeed(600); // Normal transition
+    }
+    
     setUseTransition(true);
     setIndex((i) => i - 1);
+    
+    // Reset click count after 500ms
+    clickTimeoutRef.current = setTimeout(() => {
+      clickCountRef.current = 0;
+      setTransitionSpeed(600); // Reset to normal speed
+    }, 500);
   };
 
   // Snap back into the middle copy after transition to avoid reaching ends
@@ -66,12 +113,30 @@ const UpcomingFlashCardsCarousel = ({ images }: { images: string[] }) => {
           style={{
             gap: `${GAP_PX}px`,
             transform: `translateX(${translateX}px) translateY(-60px)`,
-            transition: useTransition ? 'transform 600ms ease-in-out' : 'none',
+            transition: useTransition ? `transform ${transitionSpeed}ms ease-in-out` : 'none',
           }}
         >
           {extended.map((src, i) => {
             const isCenter = i === index + 1; // middle visible slot
             const imageNumber = (i % length) + 1; // Get the actual image number (1-11)
+            const isVisible = i >= index && i <= index + 2; // Only show 3 cards (current + 2 next)
+            
+            // Animal names for each flash card
+            const animalNames = [
+              "Aquatic Animal",
+              "Community Office", // Land Animal -> Community Office
+              "Places of Worship", // Bird -> Places of Worship
+              "Birds", // Insect -> Birds
+              "Farm Animals", // Reptile -> Farm Animals
+              "Wild Animals", // Mammal -> Wild Animals
+              "Reptiles", // Fish -> Reptiles
+              "Monuments", // Amphibian -> Monuments
+              "Parts of Plants", // Wild Animal -> Parts of Plants
+              "Countries Around the World", // Pet Animal -> Countries Around the World
+              "People Who Help Us" // Farm Animal -> People Who Help Us
+            ];
+            
+            const animalName = animalNames[imageNumber - 1] || `Animal ${imageNumber}`;
             return (
               <div key={`img-${i}-${src}`} className="flex-shrink-0" style={{ width: `${SLOT_WIDTH}px`, height: `${SLOT_HEIGHT}px` }}>
                 <div
@@ -79,8 +144,9 @@ const UpcomingFlashCardsCarousel = ({ images }: { images: string[] }) => {
                   style={{
                     transformOrigin: 'bottom center',
                     transform: `scale(${isCenter ? 1.2 : 0.8})`,
-                    transition: useTransition ? 'transform 600ms ease-in-out' : 'none',
+                    transition: useTransition ? `transform ${transitionSpeed}ms ease-in-out, opacity ${transitionSpeed}ms ease-in-out` : 'none',
                     zIndex: isCenter ? 10 : 5,
+                    opacity: isVisible ? 1 : 0, // Hide corner images
                   }}
                 >
                   <img
@@ -97,11 +163,11 @@ const UpcomingFlashCardsCarousel = ({ images }: { images: string[] }) => {
                     style={{
                       transformOrigin: 'top center',
                       transform: `scale(${isCenter ? 1.2 : 0.8})`,
-                      transition: useTransition ? 'transform 600ms ease-in-out' : 'none',
+                      transition: useTransition ? `transform ${transitionSpeed}ms ease-in-out` : 'none',
                     }}
                   >
-                    <p className={`font-medium text-center ${isCenter ? 'text-neon-green text-lg' : 'text-white text-base'}`} style={{ transition: useTransition ? 'font-size 600ms ease-in-out, color 600ms ease-in-out' : 'none' }}>
-                      Flash Card {imageNumber}
+                    <p className={`font-medium text-center ${isCenter ? 'text-neon-green text-lg' : 'text-white text-base'}`} style={{ transition: useTransition ? `font-size ${transitionSpeed}ms ease-in-out, color ${transitionSpeed}ms ease-in-out` : 'none' }}>
+                      {animalName}
                     </p>
                   </div>
                 </div>
@@ -545,11 +611,11 @@ export const ProjectDetail = () => {
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-center mb-6"
+            className="text-center mb-4"
           >
             {/* Project Logo - Same as Home Page */}
             {project.id === 'meiphor' ? (
-              <div className="flex flex-col items-center mb-6">
+              <div className="flex flex-col items-center mb-4">
                 <motion.div
                   className="text-6xl text-center flex items-center justify-center min-h-[240px] gap-6"
                   style={{ marginBottom: 8 }}
@@ -564,12 +630,12 @@ export const ProjectDetail = () => {
                     <span className="text-6xl">M</span>EIPHOR
                   </h1>
                 </motion.div>
-                <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-full mx-auto px-1 text-justify font-medium leading-relaxed tracking-normal" style={{fontFamily: 'Tahoma, sans-serif', wordSpacing: '0.3em'}}>
-                  Led end-to-end development of Meiphor AR application from concept to deployment. Architected Unity-based systems, managed UI/3D modeling teams, and implemented various technical solutions for performance optimization and user experience enhancement. Delivered cross-platform AR application for Android and iOS mobile platforms.
+                <p className="text-lg md:text-xl text-muted-foreground mb-12 max-w-full mx-auto px-1 text-justify font-medium leading-relaxed tracking-normal" style={{fontFamily: 'Tahoma, sans-serif', wordSpacing: '0.3em', textIndent: '2.25em'}}>
+                    Initiated and led the end-to-end development of Meiphor, an AR-based learning application, right from its inception after joining the  <span className="text-neon-green font-semibold">HackGeniX Tech Private Limited</span>. Spearheaded core research, architecture design, and full-cycle implementation using Unity and Vuforia. Managed UI/UX and 3D modeling teams, ensuring technical scalability, optimized performance, and an engaging user experience. Delivered a stable, cross-platform AR solution for Android and iOS, setting the foundation for future AR-based educational products within the company.
                 </p>
                 
                 {/* Download Buttons */}
-                <div className="flex flex-wrap justify-center gap-8 mb-8">
+                <div className="flex flex-wrap justify-center gap-6 mb-6">
                   {project.links.playStore && (
                     <motion.button
                       onClick={() => window.open(project.links.playStore, '_blank')}
@@ -609,7 +675,7 @@ export const ProjectDetail = () => {
 
             {/* Tech Stack */}
             {project.id === 'meiphor' ? (
-              <div className="flex flex-col items-center gap-3 mb-8">
+              <div className="flex flex-col items-center gap-3 mb-6">
                 <h3 className="text-3xl font-semibold text-center mb-2 text-foreground">
                   Tech Stack
                 </h3>
@@ -733,7 +799,7 @@ export const ProjectDetail = () => {
                    <div key={index}>
                     {/* Section Divider Line - Show above every section including the first */}
                     {(
-                      <div className="flex items-center justify-center my-12">
+                      <div className="flex items-center justify-center my-8">
                         <div className="h-px bg-gradient-to-r from-transparent via-neon-green/50 to-transparent w-full"></div>
                       </div>
                     )}
@@ -744,15 +810,15 @@ export const ProjectDetail = () => {
                        whileInView={{ opacity: 1, y: 0 }}
                        transition={{ duration: 0.3, delay: 0 }}
                        viewport={{ once: true }}
-                       className="mb-20"
+                      className={index === project.sections.length - 1 ? "mb-4" : "mb-16"}
                        style={{ scrollMarginTop: (navHeight || STICKY_HEIGHT) + GAP_BELOW }}
                      >
                        {/* Section Heading */}
-                       <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-foreground">
+                       <h2 className="text-3xl md:text-4xl font-bold text-center mb-3 text-foreground">
                          {section.heading}
                        </h2>
                         {section.heading === 'Upcoming AR Flash Cards' && (
-                          <p className="text-base md:text-lg text-muted-foreground mb-32 max-w-3xl mx-auto text-center">
+                         <p className="text-base md:text-lg text-muted-foreground mb-24 max-w-3xl mx-auto text-center">
                             We're continuously expanding our AR Flash Cards library with new educational categories — most of which are in the final stage of development and will be rolled out in upcoming updates.
                           </p>
                         )}
@@ -760,7 +826,7 @@ export const ProjectDetail = () => {
                      {/* Conditional rendering for Video or Images */}
                     {section.video ? (
                       /* Video */
-                      <div className="mb-8 rounded-xl overflow-hidden border border-neon-green/10 max-w-[720px] mx-auto relative particle-bg">
+                      <div className="mb-6 rounded-xl overflow-hidden border border-neon-green/10 max-w-[720px] mx-auto relative particle-bg">
                         <div className="relative w-full" style={{ aspectRatio: '1280/720' }}>
                            <iframe
                              ref={(el) => {
@@ -780,7 +846,7 @@ export const ProjectDetail = () => {
                        </div>
                     ) : section.images ? (
                       /* Image Carousel - Only for Upcoming AR Flash Cards */
-                      <div className="mb-8">
+                      <div className="mb-6">
                         {section.heading === 'Upcoming AR Flash Cards' ? (
                           <UpcomingFlashCardsCarousel images={section.images} />
                         ) : (
@@ -848,13 +914,55 @@ export const ProjectDetail = () => {
                   ))}
                 </div>
               )}
+              
+              {/* Closing line for Upcoming AR Flash Cards section */}
+              {section.heading === 'Upcoming AR Flash Cards' && (
+                <>
+                  <p className="mt-16 mb-12 text-base md:text-lg text-muted-foreground text-center max-w-3xl mx-auto">
+                    These AR flashcards mark just the beginning — every update brings a new way for children to learn through immersive visuals
+                  </p>
+                  {/* Divider Line */}
+                  <div className="flex items-center justify-center mt-6 mb-1">
+                    <div className="h-px bg-gradient-to-r from-transparent via-neon-green/50 to-transparent w-full"></div>
+                  </div>
+                </>
+              )}
                      </motion.div>
                    </div>
                  ))}
         </div>
 
+        {/* Project Credit Section */}
+        <motion.div 
+          className="relative z-10 pb-2"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          viewport={{ once: true }}
+        >
+          {/* Project Credit Text */}
+          <motion.p 
+            className="text-center text-sm md:text-base font-light tracking-wide"
+            style={{ 
+              fontFamily: 'Poppins, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+              background: 'linear-gradient(135deg, #ffffff 0%, #39ff14 50%, #ffffff 100%)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              textShadow: '0 0 20px rgba(57, 255, 20, 0.3)',
+              letterSpacing: '0.05em'
+            }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
+            viewport={{ once: true }}
+          >
+            Developed at HackGeniX Tech Private Limited      |      Lead: Suhail M.
+          </motion.p>
+        </motion.div>
+
         {/* Footer Spacer */}
-        <div className="h-20 relative z-10"></div>
+        <div className="h-2 relative z-10"></div>
       </main>
     </div>
   );
